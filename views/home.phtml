@@ -1,0 +1,82 @@
+<img class="banniere" src="libraries/assets/image/banniere_clip.png" alt="bannière Avee Mana - Inner Life">
+<header class="home">
+    <svg class="outNow" viewbox="0 0 1350 400">
+        <text x="50%" y="50%" fill="transparent" text-anchor="middle">
+            OUT NOW
+        </text>
+    </svg>
+    <h2 class="pageTitle homeTitle">MENU</h2>
+    <?php if (isset($_SESSION['user'])) : ?>
+        <h2 class="animate__animated animate__bounceInLeft"> Vous êtes connecté <?= htmlspecialchars($_SESSION['user']['firstname']) ?> !</h2>
+    <?php endif; ?>
+    <hr>
+    <section> <!-- FORMULAIRE D'AJOUT D'EVENEMENT (ADMIN) -->
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+            <?php require_once 'errors.phtml'; ?>
+            <?php require_once 'valids.phtml'; ?>
+            <div class="formProduct">
+                <h3> Vous pouvez ajouter un évenement</h3>
+                <form action="index.php?route=submitFormAddEvent" method="POST" enctype="multipart/form-data">
+                    <label for="title">Entrez l'intitulé de l'événement :</label>
+                    <input type="text" name="title" id="title" placeholder="Ne pas oublier le nom de la salle !" required>
+
+                    <label for="description">Ajoutez la description de l'événement :</label>
+                    <input type="text" name="description" id="description" placeholder="Description ?" required>
+
+                    <label for="date">Indiquez la date de l'événement :</label>
+                    <input type="date" name="date" id="date" required>
+
+                    <label for="city">Indiquez le lieu de l'événement :</label>
+                    <div><input type="text" name="city" id="city" placeholder="Ville ?" required></div>
+
+                    <label for="cover">Indiquez le nom du fichier de l'image. ex: cover.jpeg :</label>
+                    <input type="file" name="cover" id="cover" accept=".jpeg, .jpg, .png, .heic, .gif" required>
+                    <small>Taille maximale : 2 Mo, extensions autorisées : JPEG, JPG, PNG, HEIC ou GIF</small>
+
+                    <input type="hidden" value="<?= $token ?>" name="shield">
+                    <input type="submit" value="Valider" class="formbutton" />
+                </form>
+
+            </div>
+        <?php endif; ?>
+    </section>
+    <section class="eventsContainer"> <!-- AFFICHAGE EVENEMENTS -->
+        <h5 class="eventTitle" id="events">&#9873;&nbsp;&nbsp;&nbsp; EVENEMENTS A VENIR &nbsp;&nbsp;&nbsp;&#9873;</h5>
+        <div class="eventsPlace">
+            <?php foreach ($events as $event) : ?>
+                <div class="flexB">
+                    <div class="imgContainer">
+                        <img src="libraries/assets/image/<?= htmlspecialchars($event['cover']) ?>" alt="photo ou affiche de l'évènement concerné">
+                    </div>
+                    <div class="cell">
+                        <span class="bth-day"><?= htmlspecialchars($event['eventDate']) ?></span>
+                    </div>
+                    <div class="cell event-cell">
+                        <div class="scope">
+                            <div class="bth-title"><?= htmlspecialchars($event['title']) ?></div>
+                            <div class="bth-desc">
+                                <p><?= htmlspecialchars($event['description']) ?></p>
+                            </div>
+                            <span class="slash"> &nbsp;/&nbsp;</span>
+                            <div class="bth-location"><?= htmlspecialchars($event['city']) ?></div>
+                        </div>
+                    </div>
+                    <div class="cell-ticket">
+                        <div class="event-button-container">
+                            <a href="https://www.seetickets.com/fr/search?q=avee+mana" target="_blank" class="buyTickets">
+                                <button class="deleteBtn">Pré-ventes</button>
+                            </a>
+                        </div>
+                    </div>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+                        <form method="post" action="index.php?route=deleteEvent">
+                            <input type="hidden" name="eventId" value="<?= htmlspecialchars($event['id']) ?>">
+                            <button type="submit" class="deleteBtn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet évènement ?')">Supprimer l'évenement</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+                <hr>
+            <?php endforeach; ?>
+        </div>
+    </section>
+</header>

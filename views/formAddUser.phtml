@@ -1,0 +1,52 @@
+<header>
+    <?php require_once 'errors.phtml'; ?>
+    <div class="register">
+        <div class="formUser">
+            <h2 class="createAcc animate__animated animate__backInDown">Création de compte</h2>
+            <h3>Veuillez remplir tous les champs</h3>
+            <form action="index.php?route=submitFormAddUser" method="POST">
+                <label for="firstName">Entrez votre prénom :</label>
+                <input type="text" name="firstname" id="firstName" required value="<?= isset($_SESSION['temp_data']['firstname']) ? htmlspecialchars($_SESSION['temp_data']['firstname']) : '' ?>">
+
+                <label for="lastName">Entrez votre nom :</label>
+                <input type="text" name="lastname" id="lastName" required value="<?= isset($_SESSION['temp_data']['lastname']) ? htmlspecialchars($_SESSION['temp_data']['lastname']) : '' ?>">
+
+                <label for="email">Entrez votre email :</label>
+                <input type="email" name="email" id="email" required value="<?= isset($_SESSION['temp_data']['email']) ? htmlspecialchars($_SESSION['temp_data']['email']) : '' ?>">
+
+                <label for="password">Choisissez un mot de passe :</label>
+                <br><small>(8 caractères min / 1 majuscule - 1 minuscule - 1 chiffre)</small>
+                <input type="password" name="password" id="password" required>
+
+                <label for="password_verify">Confirmez le mot de passe choisi :</label>
+                <input type="password" name="password_confirme" id="password_verify" required>
+
+                <label for="phone">Entrez votre numéro de téléphone :</label>
+                <input type="tel" name="phone" id="phone" value="<?= isset($_SESSION['temp_data']['phone']) ? htmlspecialchars($_SESSION['temp_data']['phone']) : '' ?>">
+
+                <label for="adress">Entrez votre adresse (sans accents) :</label>
+                <input type="text" name="adress" id="adress" value="<?= isset($_SESSION['temp_data']['adress']) ? htmlspecialchars($_SESSION['temp_data']['adress']) : '' ?>">
+
+                <label for="postcode">Entrez votre code postal :</label>
+                <input type="text" name="postcode" id="postcode" value="<?= isset($_SESSION['temp_data']['postcode']) ? htmlspecialchars($_SESSION['temp_data']['postcode']) : '' ?>">
+
+                <label for="city">Entrez le nom de votre ville :</label>
+                <input type="text" name="city" id="city" value="<?= isset($_SESSION['temp_data']['city']) ? htmlspecialchars($_SESSION['temp_data']['city']) : '' ?>">
+
+                <p>Voulez-vous être abonné à la newsletter ?</p>
+                <div>
+                    <input type="radio" name="newsletter" value="yes" id="newsletter1" <?= (isset($_SESSION['temp_data']['newsletter']) && $_SESSION['temp_data']['newsletter'] == 'yes') ? 'checked' : '' ?>>
+                    <label for="newsletter1">Oui</label>
+                </div>
+                <div>
+                    <input type="radio" name="newsletter" value="no" id="newsletter2" <?= (!isset($_SESSION['temp_data']['newsletter']) || $_SESSION['temp_data']['newsletter'] == 'no') ? 'checked' : '' ?>>
+                    <label for="newsletter2">Non</label>
+                </div>
+
+                <input type="hidden" value="<?= $_SESSION['shield'] ?>" name="shield">
+                <input type="submit" name="submit" value="V A L I D E R" class="registerbtn">
+            </form>
+
+        </div>
+    </div>
+</header>

@@ -1,0 +1,67 @@
+<header>
+    <h2 class="pageTitle">GALERIE</h2>
+    <!-- AFFICHAGE FORMULAIRE D'AJOUT DE MEDIA DANS LA GALERIE (ADMIN) -->
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+        <section>
+            <?php require_once 'errors.phtml'; ?>
+            <?php require_once 'valids.phtml'; ?>
+            <div class="formProduct">
+                <h3> Vous pouvez ajouter un média</h3>
+                <form action="index.php?route=submitFormAddMedia" method="POST" enctype="multipart/form-data">
+                    <label for="name">Entrez le nom du média :</label>
+                    <input type="text" name="name" id="name" placeholder="(optionnel) - Affiche le titre de l'audio !">
+
+                    <label for="media_path">Choisissez le fichier média :</label>
+                    <input type="file" name="media_path" id="media_path" accept=".jpeg, .jpg, .png, .heic, .gif, .mp3, .wav, .flac, .mp4, .mov" required>
+                    <small>Taille maximale : 1 Go, extensions autorisées : JPEG, JPG, PNG, HEIC, GIF, mp3, WAVE, FLAC, mp4, MOV</small>
+
+                    <input type="submit" value="V A L I D E R" class="formbutton" aria-label="Valider le formulaire">
+                    <input type="hidden" value="<?= $token ?>" name="shield">
+                </form>
+
+            </div>
+        </section>
+        <hr>
+    <?php endif; ?>
+    <section>
+        <div class="myMedias">
+            <!-- Toutes les images/photo -->
+            <ul class="galleryImages">
+                <?php foreach ($medias_image as $media) : ?>
+                    <li><img src="libraries/assets/gallery_image/<?= htmlspecialchars($media['path']) ?>" alt="Photo ou artwork Avee Mana n°<?= htmlspecialchars($media['id']) ?>"></li>
+                <?php endforeach; ?>
+                <div class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content">
+                </div>
+            </ul>
+            <hr>
+            <!-- Fin de toutes les images/photo -->
+            <!-- Tous les audio -->
+            <!-- <h3 class="audioTitle">PLAYLIST DERNIERES SORTIES</h3>
+            <div class="audioPlace">
+                <div id="spriteVinyl" class="platineContainer"></div>
+                <?php foreach ($medias_audio as $media) : ?>
+                    <div class="galleryAudios">
+                        <h4><?= htmlspecialchars($media['name']) ?></h4>
+                        <audio class="player" controls controlsList="nodownload" volume="0.5">
+                            <source src="libraries/assets/gallery_audio/<?= htmlspecialchars($media['path']) ?>" type="audio/mp3"> Votre navigateur ne prend pas en charge l'audio HTML5, merci d'utiliser un navigateur plus récent.
+                        </audio>
+                    </div>
+                    <hr>
+                <?php endforeach; ?>
+            </div> -->
+            <!-- Fin de tous les audios -->
+            <!-- Toutes les videos -->
+            <!-- <?php foreach ($medias_video as $media) : ?>
+                <div class="galleryVideos">
+                    <video width="1110" height="755" poster="libraries/assets/gallery_video/<?= htmlspecialchars($media['path']) ?>" preload="auto" controls loop muted>
+                        <source src="libraries/assets/gallery_video/<?= htmlspecialchars($media['path']) ?>" type="video/webm">
+                        <source src="libraries/assets/gallery_video/<?= htmlspecialchars($media['path']) ?>" type="video/mp4"> Votre navigateur ne prend pas en charge les vidéos HTML5, merci d'utiliser un navigateur plus récent.
+                    </video>
+                </div>
+            <?php endforeach; ?> -->
+            <!-- Fin de toutes les videos -->
+        </div>
+    </section>
+</header>

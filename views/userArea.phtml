@@ -1,0 +1,190 @@
+<header class="userArea">
+    <h2 class="pageTitle">MON COMPTE</h2>
+    <section class="profile">
+        <?php require_once 'errors.phtml'; ?>
+        <?php require_once 'valids.phtml'; ?>
+        <div class="details">
+            <h2 class="heading"><?= htmlspecialchars($_SESSION['user']['firstname']) ?> <?= htmlspecialchars(ucfirst($_SESSION['user']['lastname'])) ?></h2>
+            <div class="location">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12 ,2Z"></path>
+                </svg>
+                <p><?= htmlspecialchars($_SESSION['user']['city']) ?></p>
+            </div>
+            <p>(Cliquez pour modifier vos informations)</p>
+            <div class="infosUser">
+                <div class="col-4">
+                    <h4>ADRESSE POSTALE</h4>
+                    <div class="infoCol-4">
+                        <p><?= htmlspecialchars($_SESSION['user']['firstname']) ?></p>
+                        <p><?= htmlspecialchars($_SESSION['user']['lastname']) ?></p>
+                    </div>
+                    <p><?= htmlspecialchars($_SESSION['user']['postcode']) ?></p>
+                    <p><?= htmlspecialchars($_SESSION['user']['adress']) ?></p>
+
+                </div>
+                <div class="col-4">
+                    <h4>ADRESSE MAIL</h4>
+                    <p><?= htmlspecialchars($_SESSION['user']['email']) ?></p>
+                </div>
+                <div class="col-4">
+                    <h4>TELEPHONE</h4>
+                    <p><?= htmlspecialchars($_SESSION['user']['phone']) ?></p>
+                </div>
+                <div class="col-4">
+                    <h4>Abonnement à la newletter :</h4>
+                    <?php if ($_SESSION['user']['newsletter'] == 1) : ?>
+                        <p>Actif</p>
+                    <?php else : ?>
+                        <p>Inactif</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="updateForm" id="updateInfos" style="display:none;">
+        <div class="register">
+            <div class="formUser">
+                <h2 class="createAcc animate__animated animate__backInDown">Modification de compte</h2>
+                <h3>Veuillez remplir tous les champs</h3>
+                <form action="index.php?route=submitFormUpdateUser" method="POST">
+                    <label for="lastName">Entrez votre nom</label>
+                    <input type="text" name="lastname" id="lastname" required value="<?= isset($_SESSION['temp_data']['lastname']) ? htmlspecialchars($_SESSION['temp_data']['lastname']) : '' ?>">
+
+                    <label for="firstName">Entrez votre prénom</label>
+                    <input type="text" name="firstname" id="firstname" required value="<?= isset($_SESSION['temp_data']['firstname']) ? htmlspecialchars($_SESSION['temp_data']['firstname']) : '' ?>">
+
+                    <label for="password">Choisissez un mot de passe</label>
+                    <br><small>(8 caractères min / 1 majuscule - 1 minuscule - 1 chiffre)</small>
+                    <input type="password" name="password" id="password_1">
+
+                    <label for="password_verify">Confirmez le mot de passe choisi</label>
+                    <input type="password" name="password_confirme" id="password_2">
+
+                    <label for="phone">Entrez votre numero de téléphone</label>
+                    <input type="tel" name="phone" id="phone" value="<?= isset($_SESSION['temp_data']['phone']) ? htmlspecialchars($_SESSION['temp_data']['phone']) : '' ?>">
+
+                    <label for="adress">Entrez votre adresse</label>
+                    <input type="text" name="adress" id="adress" value="<?= isset($_SESSION['temp_data']['adress']) ? htmlspecialchars($_SESSION['temp_data']['adress']) : '' ?>">
+
+                    <label for="postcode">Entrez votre code postal</label>
+                    <input type="text" name="postcode" id="postcode" value="<?= isset($_SESSION['temp_data']['postcode']) ? htmlspecialchars($_SESSION['temp_data']['postcode']) : '' ?>">
+
+                    <label for="city">Entrez le nom de votre ville</label>
+                    <input type="text" name="city" id="city" value="<?= isset($_SESSION['temp_data']['city']) ? htmlspecialchars($_SESSION['temp_data']['city']) : '' ?>">
+                    <p>Voulez vous être abonné a la newsletter?</p>
+                    <div>
+                        <input type="radio" name="newsletter" value="yes" id="newsletter1">
+                        <label for="newsletter1">
+                            Oui
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="newsletter" value="no" id="newsletter2" checked>
+                        <label for="newsletter2">
+                            Non
+                        </label>
+                    </div>
+                    <input type="hidden" value="<?= $token ?>" name="shield">
+                    <input type="submit" value="Valider" class="registerbtn" aria-label="Valider le formulaire">
+                </form>
+            </div>
+        </div>
+    </section>
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1 && count($combinedData) > 0) : ?>
+        <section class="orderTable">
+            <h2>Mes commandes</h2>
+            <div class="table-wrapper">
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>N° de Commande</th>
+                            <th>Date de la commande</th>
+                            <th>Prix total</th>
+                            <th>Statut</th>
+                            <th>Détails de la commande</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($combinedData as $combined) : ?>
+                            <?php
+                            $order = $combined['order'];
+                            $product = $combined['product'];
+                            ?>
+                            <tr>
+                                <td><?= htmlspecialchars($order['id']) ?></td>
+                                <td><?= htmlspecialchars($order['orderDate']) ?></td>
+                                <td><?= htmlspecialchars($order['totalPrice']) ?></td>
+                                <td><?= htmlspecialchars($order['statusName']) ?></td>
+                                <td>
+                                    <p>Nom du produit: <?= htmlspecialchars($product['name']) ?></p>
+                                    <p>Quantité: <?= htmlspecialchars($order['quantity']) ?></p>
+                                    <!-- Ajoutez d'autres détails si nécessaire -->
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+        <hr>
+        <section class="orderTable">
+            <h2>Tableau récapitulatif des commandes utilisateurs</h2>
+            <div class="table-wrapper">
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>ID Commande</th>
+                            <th>ID Article</th>
+                            <th>Nom de l'article</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Prix total</th>
+                            <th>Date de la commande</th>
+                            <th>Téléphone</th>
+                            <th>Adresse</th>
+                            <th>Code Postal</th>
+                            <th>Ville</th>
+                            <th>Statut</th>
+                            <th>Supprimer la commande</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($combinedData as $combined) : ?>
+                            <?php
+                            $order = $combined['order'];
+                            $product = $combined['product'];
+                            ?>
+                            <tr>
+                                <td><?= htmlspecialchars(ucfirst($order['firstname']) . ' ' . ucfirst($order['lastname'])) ?></td>
+                                <td><?= htmlspecialchars($order['id']) ?></td>
+                                <td><?= htmlspecialchars($order['productId']) ?></td>
+                                <td><?= htmlspecialchars($product['name']) ?></td>
+                                <td><?= htmlspecialchars($order['quantity']) ?></td>
+                                <td><?= htmlspecialchars($product['price']) ?></td>
+                                <td><?= htmlspecialchars($order['totalPrice']) ?></td>
+                                <td><?= htmlspecialchars($order['orderDate']) ?></td>
+                                <td><?= htmlspecialchars($order['phone']) ?></td>
+                                <td><?= htmlspecialchars($order['adress']) ?></td>
+                                <td><?= htmlspecialchars($order['postcode']) ?></td>
+                                <td><?= htmlspecialchars($order['city']) ?></td>
+                                <td><?= htmlspecialchars($order['statusName']) ?></td>
+                                <td class="delete-container">
+                                    <form class="form-delete-order" method="post" action="index.php?route=deleteOrder">
+                                        <input type="hidden" name="orderId" value="<?= htmlspecialchars($order['id']) ?>">
+                                        <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?')">Supprimer la commande</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    <?php endif; ?>
+
+</header>

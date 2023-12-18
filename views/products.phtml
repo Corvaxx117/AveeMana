@@ -1,0 +1,77 @@
+<header>
+    <h2 class="pageTitle">BOUTIQUE</h2>
+    <hr>
+    <section class="formProductContainer">
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+            <!-- AFFICHAGE FORMULAIRE D'AJOUT DE PRODUIT DANS LA BDD (ADMIN) -->
+            <div class="formProduct">
+                <h3> Vous pouvez ajouter un article dans la boutique</h3>
+                <?php require_once 'errors.phtml'; ?>
+                <?php require_once 'valids.phtml'; ?>
+                <form action="index.php?route=submitFormAddProduct" method="POST" enctype="multipart/form-data">
+
+                    <label for="name">Entrez le nom du produit</label>
+                    <input type="text" name="name" id="name" placeholder="Nom">
+
+                    <label for="description">Ajoutez la description du produit</label>
+                    <input type="text" name="description" id="description" placeholder="Description">
+
+                    <label for="price">Indiquez le prix </label>
+                    <input type="number" name="price" id="price" placeholder="Prix">
+
+                    <label for="quantity_in_stock">Indiquez la quantité en stock</label>
+                    <div><input type="number" name="quantity_in_stock" id="quantity_in_stock_1" placeholder="Quantité"></div>
+
+                    <label for="picture_path">Indiquez le nom du fichier de l'image. ex: cover.jpeg</label>
+                    <input type="file" name="picture_path" id="picture_path">
+                    <small>Taille maximale : 2mo, extensions autorisées : JPEG, JPG, PNG, HEIC ou GIF</small>
+                    <input type="submit" value="Valider" class="formbutton" />
+                </form>
+            </div>
+        <?php endif; ?>
+    </section>
+    <section class="main">
+        <div class="cards">
+            <?php foreach ($products as $product) : ?>
+                <!-- Toutes les cartes -->
+                <div class="card">
+                    <div class="caseImage">
+                        <img src="libraries/assets/image/<?= htmlspecialchars($product['picture_path']) ?>" alt="Image d'un produit à la vente.">
+                    </div>
+                    <div class="card-header">
+                        <h4 class="title"><?= htmlspecialchars($product['name']) ?></h4>
+                        <div class="infos">
+                            <h4 class="price"><?= htmlspecialchars($product['price']) ?> €</h4>
+                            <h4 class="quantityInStock price"><?= htmlspecialchars($product['quantity_in_stock']) ?> en stock</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <hr>
+                        <p><?= htmlspecialchars($product['description']) ?></p>
+                        <hr>
+                    </div>
+                    <form>
+                        <div class="card-footer">
+                            <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
+                                <input type="hidden" value="<?= $token ?>" name="shield">
+                                <input type="hidden" value="<?= $product['id'] ?>" name="id">
+                                <?php if ($product['activate'] == 1) : ?>
+                                    <a href="index.php?route=changeStatusProduct&id=<?= $product['id'] ?>&action=hide" class="deleteBtn">Masquer</a>
+                                <?php else : ?>
+                                    <a href="index.php?route=changeStatusProduct&id=<?= $product['id'] ?>&action=show" class="deleteBtn">Démasquer</a>
+                                <?php endif; ?>
+                            <?php else : ?>
+                                <?php if ($product['quantity_in_stock'] != 0 && $product['activate'] == 1) : ?>
+                                    <a href="index.php?route=addToBasket&id=<?= $product['id'] ?>&action=add" class="addToCard">Ajouter au panier</a>
+                                <?php else : ?>
+                                    <p class="soldOut">SOLD OUT</p>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                    </form>
+                </div>
+                <!-- Fin de toutes les cartes -->
+            <?php endforeach; ?>
+        </div>
+    </section>
+</header>

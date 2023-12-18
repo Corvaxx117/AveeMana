@@ -1,0 +1,23 @@
+<header>
+    <div class="register">
+        <div class="formUser formLogin">
+            <?php require_once 'valids.phtml'; ?>
+            <?php require_once 'errors.phtml'; ?>
+            <h2 class="log animate__animated animate__backInDown">Se connecter à votre compte</h2>
+
+            <form action="index.php?route=submitFormLogin" method="POST">
+
+                <label for="email">Entrez votre email :</label>
+                <input type="email" name="email" id="email" required>
+
+                <label for="password">Entrez votre mot de passe :</label>
+                <input type="password" name="password" id="password" required>
+
+                <input type="hidden" value="<?= $token ?>" name="shield">
+
+                <input type="submit" value="V A L I D E R" class="registerbtn" />
+
+            </form>
+        </div>
+    </div>
+</header>

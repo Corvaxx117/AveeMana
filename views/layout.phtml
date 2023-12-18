@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Le site officiel d'Avee Mana">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="./libraries/css/normalize.css">
+    <link rel="stylesheet" href="./libraries/css/style.css">
+
+    <title>Avee Mana | <?= isset($title) ?  $title : 'Bienvenue' ?></title>
+</head>
+
+<body>
+
+    <!-- Barre de navigation -->
+    <nav id="navBar">
+        <div class="transition">
+            <!-- Hamburger menu -->
+            <div class="hamburger-menu">
+                <input id="hambToggle" type="checkbox" />
+                <label class="menuBtn" for="hambToggle">
+                    <span></span>
+                </label>
+                <ul class="menuBox">
+                    <li><a class="menuItem deco" href="index.php?route=home">ACCUEIL</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=shop">BOUTIQUE</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=gallery">GALERIE</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=home#events">EVENEMENTS</a></li>
+                    <?php if (!isset($_SESSION['user'])) : ?>
+                        <li><a class="menuItem deco" href="index.php?route=login">SE CONNECTER</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=addUsers">CREE UN COMPTE</a></li>
+                    <?php else : ?>
+                        <li><a class="menuItem deco" href="index.php?route=userAccount">MON COMPTE</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=disconnect">SE DECONNECTER</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <!-- Fin du Menu Hamburger -->
+            <div class="symbol">&#10061;</div>
+            <h1 class="banNav">A V E E &nbsp;&nbsp;&#9652;&nbsp;&nbsp; M A N A</h1>
+            <div class="symbol">&#10061;</div>
+        </div>
+        <div class="onglets">
+            <ul>
+                <?php if (!isset($_SESSION['user'])) : ?>
+                    <li class="deco"><a href="index.php?route=login">Se connecter</a></li>
+                    <li class="deco"><a href="index.php?route=addUsers">Créer un compte</a></li>
+                <?php else : ?>
+                    <li class="deco disconect"><a href="index.php?route=disconnect">Se déconnecter</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <p class="deco caddie"><a href="index.php?route=basketProducts"><i class="animate__animated animate__rubberBand fa-solid fa-cart-shopping"></i></a></p>
+    </nav>
+    <!-- Fin de la barre de navigation -->
+
+    <main>
+        <?php include $template ?>
+    </main>
+
+    <!-- Pied de page -->
+    <footer id="navBot">
+        <ul class="listIcons">
+            <li><a href="https://linktr.ee/Aveemana" target="_blank" title="LinkTree"><i class="fa-solid fa-link"></i></a></li>
+            <li><a href="https://www.youtube.com/@aveemana" target="_blank" title="Youtube"><i class="fa-brands fa-youtube"></i></a></li>
+            <li><a href="https://www.facebook.com/aveemana" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href="https://www.instagram.com/avee_mana/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="https://soundcloud.com/avee-mana" target="_blank" title="SoundCloud"><i class="fa-solid fa-cloud"></i></a></li>
+            <li><a href="https://aveemana.bandcamp.com/" target="_blank" title="Bandcamp"><i class="fa-brands fa-bandcamp"></i></a></li>
+            <li><a href="https://open.spotify.com/artist/4x2DScjhDMpX83Xhwb1Q9L?si=tYi9L4pPTyGF1LBp6MgsKg" target="_blank" title="Spotify"><i class="fa-brands fa-spotify"></i></a></li>
+        </ul>
+    </footer>
+    <!-- Fin du pied de page -->
+    <script src="https://kit.fontawesome.com/4d9bce4b44.js" crossorigin="anonymous"></script>
+    <script src="libraries/js/app.js" type="module"></script>
+
+</body>
+
+</html>
