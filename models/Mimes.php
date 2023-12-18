@@ -14,14 +14,15 @@ class Mimes
             'jpe' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
             'jpg' => 'image/jpeg',
-            'gif' => 'image/gif',
+            'gif' => 'image/gif'
+            //,
 
             // audio/video
-            'mp3' => 'audio/mpeg',
-            'qt' => 'video/quicktime',
-            'mov' => 'video/quicktime',
-            'avi' => 'video/x-msvideo',
-            'wave' => 'audio/x-wav'
+            // 'mp3' => 'audio/mpeg',
+            // 'qt' => 'video/quicktime',
+            // 'mov' => 'video/quicktime',
+            // 'avi' => 'video/x-msvideo',
+            // 'wave' => 'audio/x-wav'
 
         );
         return $allowed_types;
