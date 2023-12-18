@@ -10,7 +10,7 @@ class Uploads extends Mimes
         string $path,
         array &$errors,
         // valeurs par defaut, écrasées selon l'envoi de paramètres 
-        int $maxSize = 2000000,
+        int $maxSize = 2000,
         array $ext_authorized = ["jpeg", "jpg", "png", "heic", "gif"]
     ) {
         $filename = '';
