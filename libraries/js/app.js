@@ -3,8 +3,8 @@ import SpriteAnimator from "./class/SpriteAnimator.js";
 import HrRemover from "./class/HrRemover.js";
 import FormUpdater from "./class/FormUpdater.js";
 import NavBarScrollEvent from "./class/NavBarScrollEvent.js";
-import DisplayModalGallery from "./class/DisplayModalGallery.js";
 import PaypalPayment from "./class/PaypalPayment.js";
+import DisplayModalGallery from "./class/DisplayModalGallery.js";
 
 // Événement d'ouverture / fermeture du side menu burger au clic sur titre des pages
 const pageTitle = new PageTitleClickEvent();
@@ -21,11 +21,12 @@ const formUpdater = new FormUpdater();
 // Événement d'affichage ou masquage navbar top & bottom au scroll
 const navBar = new NavBarScrollEvent();
 
-// Instancier la classe PaypalPayment
-const paypal = new PaypalPayment();
-
+// Instancier la classe PaypalPayment uniquement sur la page du panier
+// Si la route du panier est trouvée dans l'URL, .indexOf renverra la position où elle a été trouvée (un nombre positif), et donc la condition "position > -1" sera vraie.
+if (document.querySelector(".checkout")) {
+  const paypal = new PaypalPayment();
+}
 // Affichage en plein écran des images de la galerie
-// Initialisation de la classe uniquement sur la page galerie
+// Initialisation uniquement si la classe existe sur la page
 if (document.querySelector(".galleryImages")) {
   const displayModal = new DisplayModalGallery();
-}
