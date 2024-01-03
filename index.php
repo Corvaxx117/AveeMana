@@ -38,7 +38,7 @@ if (array_key_exists("route", $_GET)) :
             // AFFICHAGE BOUTIQUE
         case 'shop':
             $controller = new Controllers\ProductsController;
-            $controller->displayAllProducts();
+            $controller->displayAllProducts($errors = [], $valids = []);
             break;
 
             // AFFICHER / MASQUER UN ARTICLE (ADMIN)
@@ -66,13 +66,27 @@ if (array_key_exists("route", $_GET)) :
             // AJOUTER PRODUIT DANS PANIER 
         case 'addToBasket':
             $controller = new Controllers\BasketController;
-            $controller->addToBasket($_GET['id'], $_GET['action']);
+            // Vérifier si les paramètres requis sont présents
+            if (isset($_GET['id']) && isset($_GET['action'])) {
+                $controller->addToBasket($_GET['id'], $_GET['action']);
+            } else {
+                // Rediriger vers la route 'basketProducts'
+                header('Location: index.php?route=basketProducts');
+                exit;
+            }
             break;
 
             // SUPPRIMER UN ARTICLE DU PANIER
         case 'removeFromBasket':
             $controller = new Controllers\BasketController;
-            $controller->removeFromBasket($_GET['id']);
+            // Vérifier si les paramètres requis sont présents
+            if (isset($_GET['id'])) {
+                $controller->removeFromBasket($_GET['id']);
+            } else {
+                // Rediriger vers la route 'basketProducts'
+                header('Location: index.php?route=basketProducts');
+                exit;
+            }
             break;
 
             // SUPPRIMER L'INTEGRALITE DU PANIER
@@ -81,9 +95,15 @@ if (array_key_exists("route", $_GET)) :
             $controller->deleteAllBasket();
             break;
 
+            // VERIFICATION DU PANIER AVANT REDIRECTION PAGE PAIEMENT
+        case 'checkOrderBeforePayment':
+            $controller = new Controllers\OrdersController;
+            $controller->isBasketValid();
+            break;
+
             // PROCEDER A LA COMMANDE
         case 'proceedOrder':
-            $controller = new Controllers\BasketController;
+            $controller = new Controllers\OrdersController;
             $controller->validateOrder();
 
             /*******************************************************************************************
@@ -108,14 +128,19 @@ if (array_key_exists("route", $_GET)) :
 
             // AFFICHAGE DU FORMULAIRE D'AJOUT DE MEDIA 
         case 'gallery':
-            $controller = new Controllers\MediaController;
-            $controller->displayAllMedias();
+            $controller = new Controllers\MediasController;
+            $controller->displayAllMedias($errors = [], $valids = []);
             break;
 
             // SOUMISSION DU FORMULAIRE D'AJOUT DE MEDIA
         case 'submitFormAddMedia':
-            $controller = new Controllers\MediaController;
+            $controller = new Controllers\MediasController;
             $controller->submitFormAddMedia();
+            break;
+
+        case 'deleteMedia':
+            $controller = new Controllers\MediasController;
+            $controller->deleteMedia();
             break;
 
             /*******************************************************************************************
@@ -135,20 +160,14 @@ if (array_key_exists("route", $_GET)) :
             break;
 
             /*******************************************************************************************
-            -------------------------------------------------- PAGE ESPACE UTILISATEUR
+            -------------------------------------------------- PAGE ESPACE UTILISATEUR / RECAP COMMANDES
              *******************************************************************************************/
 
             // AFFICHAGE DU COMPTE DE L'UTILISATEUR  
         case 'userAccount':
-            if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) {
-                $controller = new Controllers\OrdersController;
-                $controller->displayAccountAdmin($errors = []);
-                break;
-            } else {
-                $controller = new Controllers\OrdersController;
-                $controller->displayAccountUser($errors = []);
-                break;
-            }
+            $controller = new Controllers\OrdersController;
+            $controller->displayAccount($valids = [], $errors = []);
+            break;
 
             // SOUMISSION DU FORMULAIRE DE MODIFICATION DE DONNEES DE L'UTILISATEUR
         case 'submitFormUpdateUser':
@@ -169,6 +188,23 @@ if (array_key_exists("route", $_GET)) :
             exit;
             break;
 
+
+            /*******************************************************************************************
+            -------------------------------------------------- PAGE CONTACT
+             *******************************************************************************************/
+
+            // AFFICHAGE PAGE CONTACT
+        case 'contact':
+            $controller = new Controllers\ContactController();
+            $controller->displayFormContact($errors = [], $valids = []);
+            break;
+            // SOUMISSION DU FORMULAIRE 
+        case 'submitFormContact':
+            $controller = new Controllers\ContactController();
+            $controller->submitFormContact();
+            break;
+
+
             /* SI LA ROUTE N'EXISTE PAS, REDIRECTION VERS L'ACCUEIL DU SITE */
         default:
             header('location: index.php?route=home');
@@ -176,7 +212,7 @@ if (array_key_exists("route", $_GET)) :
             break;
     }
 else :
-    /* SI Y'A PAS DE ROUTE REDIRIGE VERS L'ACCUEIL DU SITE */
+    /* S'IL N'Y A PAS DE ROUTE REDIRIGE VERS L'ACCUEIL DU SITE */
     header('Location: index.php?route=home');
     exit;
 endif;
