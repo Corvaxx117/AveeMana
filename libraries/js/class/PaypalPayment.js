@@ -40,7 +40,7 @@ class PaypalPayment {
   redirectToSuccessPage() {
     // Remplacez l'URL ci-dessous par l'URL de votre choix
     window.location.href =
-      "http://localhost:8888/FORMATION_3WA/aveemana/index.php?route=proceedOrder";
+      "http://corvaxxarea.com/aveemana/index.php?route=proceedOrder";
   }
 }
 
