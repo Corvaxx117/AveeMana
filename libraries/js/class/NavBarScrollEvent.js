@@ -17,9 +17,9 @@ class NavBarScrollEvent {
         this.navbar.style.opacity = "1";
       } else {
         // Masquer
-        this.navbar.style.opacity = "0.3";
+        this.navbar.style.opacity = "0.8";
         // Réduction du zIndex pour pouvoir cliquer à travers
-/*        this.navbar.style.zIndex = "0";*/
+        // this.navbar.style.zIndex = "0";
       }
       // si la position de défilement actuelle est à la fin de la page
       if (scrollPosition >= document.body.offsetHeight) {
@@ -28,7 +28,7 @@ class NavBarScrollEvent {
       } else {
         // Masquer
         this.navBot.classList.remove("show");
-        this.navBot.style.zIndex = "-33";
+        this.navBot.style.zIndex = "-3333";
       }
       this.prevScrollpos = currentScrollPos;
     });
