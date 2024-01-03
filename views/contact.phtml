@@ -1,0 +1,38 @@
+<header>
+    <h2 class="pageTitle">CONTACT</h2>
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="profile animate__animated animate__tada">
+                <div class="errorContainer">
+                    <?php require_once 'errors.phtml'; ?>
+                    <?php require_once 'valids.phtml'; ?>
+                </div>
+            </div>
+            <!-- <div id="spriteVinyl" class="platineContainer"></div> -->
+            <h2 class="pText">Contactez-nous</h2>
+
+            <div class="contact-info">
+                <p class="pText">Adresse : 116 Rue Edmond Rostand, Marseille</p>
+                <p class="pText">Email : avee.mana@gmail.com</p>
+                <p class="pText">Téléphone : +33 6 32 01 75 04</p>
+            </div>
+
+            <div class="contact-form">
+                <h3 class="pText">Ou envoyez-nous un message</h3>
+                <form action="index.php?route=submitFormContact" method="post">
+                    <label for="name">Nom & Prénom:</label>
+                    <input type="text" id="name" name="name" required value="<?= isset($_SESSION['user']['lastname']) && isset($_SESSION['user']['firstname']) ? htmlspecialchars($_SESSION['user']['firstname']) . ' ' . htmlspecialchars($_SESSION['user']['lastname']) : '' ?>">
+
+                    <label for="email">Email :</label>
+                    <input type="text" id="email" name="email" required value="<?= isset($_SESSION['user']['email']) ? htmlspecialchars($_SESSION['user']['email']) : '' ?>">
+
+                    <label for="message">Message :</label>
+                    <textarea id="message" name="message" required></textarea>
+
+                    <input type="hidden" value="<?= $_SESSION['shield'] ?>" name="shield">
+                    <input type="submit" name="submit" value="ENVOYER" class="registerbtn">
+                </form>
+            </div>
+        </div>
+    </section>
+</header>

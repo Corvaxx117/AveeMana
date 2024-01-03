@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./libraries/css/normalize.css">
     <link rel="stylesheet" href="./libraries/css/style.css">
+    <link rel="stylesheet" href="./libraries/css/effects.css">
+
 
     <title>Avee Mana | <?= isset($title) ?  $title : 'Bienvenue' ?></title>
 </head>
@@ -23,46 +25,49 @@
             <!-- Hamburger menu -->
             <div class="hamburger-menu">
                 <input id="hambToggle" type="checkbox" />
-                <label class="menuBtn" for="hambToggle">
+                <label class="menuBtn" name="hambToggle" for="hambToggle">
                     <span></span>
                 </label>
                 <ul class="menuBox">
-                    <li><a class="menuItem deco" href="index.php?route=home">ACCUEIL</a></li>
-                    <li><a class="menuItem deco" href="index.php?route=shop">BOUTIQUE</a></li>
-                    <li><a class="menuItem deco" href="index.php?route=gallery">GALERIE</a></li>
-                    <li><a class="menuItem deco" href="index.php?route=home#events">EVENEMENTS</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=home"><i class="fa-solid fa-house"></i>&nbsp;&nbsp;&nbsp;&nbsp;ACCUEIL</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=shop"><i class="fa-solid fa-bag-shopping"></i>&nbsp;&nbsp;&nbsp;&nbsp;BOUTIQUE</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=gallery"><i class="fa-solid fa-image"></i>&nbsp;&nbsp;&nbsp;&nbsp;GALERIE</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=home#events"><i class="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;&nbsp;EVENEMENTS</a></li>
+                    <li><a class="menuItem deco" href="index.php?route=contact"><i class="fa-solid fa-message"></i>&nbsp;&nbsp;&nbsp;&nbsp;CONTACT</a></li>
                     <?php if (!isset($_SESSION['user'])) : ?>
-                        <li><a class="menuItem deco" href="index.php?route=login">SE CONNECTER</a></li>
-                        <li><a class="menuItem deco" href="index.php?route=addUsers">CREE UN COMPTE</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=login"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;SE CONNECTER</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=addUsers"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;CREE UN COMPTE</a></li>
                     <?php else : ?>
-                        <li><a class="menuItem deco" href="index.php?route=userAccount">MON COMPTE</a></li>
-                        <li><a class="menuItem deco" href="index.php?route=disconnect">SE DECONNECTER</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=userAccount"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;MON COMPTE</a></li>
+                        <li><a class="menuItem deco" href="index.php?route=disconnect"><i class="fa-solid fa-user-slash"></i>&nbsp;&nbsp;&nbsp;&nbsp;SE DECONNECTER</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
             <!-- Fin du Menu Hamburger -->
             <div class="symbol">&#10061;</div>
-            <h1 class="banNav">A V E E &nbsp;&nbsp;&#9652;&nbsp;&nbsp; M A N A</h1>
+            <h1 class="banNav">A V E E &nbsp;&nbsp;&nbsp;&nbsp; M A N A</h1>
             <div class="symbol">&#10061;</div>
         </div>
+        <?php if (!isset($_SESSION['user'])) : ?>
+            <div class="onglets">
+                <ul>
+                    <li class="deco dNone"><a href="index.php?route=login">Se connecter</a></li>
+                    <li class="deco dNone"><a href="index.php?route=addUsers">Créer un compte</a></li>
+                </ul>
+            </div>
+        <?php endif; ?>
         <div class="onglets">
             <ul>
-                <?php if (!isset($_SESSION['user'])) : ?>
-                    <li class="deco"><a href="index.php?route=login">Se connecter</a></li>
-                    <li class="deco"><a href="index.php?route=addUsers">Créer un compte</a></li>
-                <?php else : ?>
-                    <li class="deco disconect"><a href="index.php?route=disconnect">Se déconnecter</a></li>
-                <?php endif; ?>
+                <!-- <p class="deco caddie" title="Se déconnecter"><a href="index.php?route=disconnect"><i class="fa-solid fa-power-off animate__animated animate__rubberBand"></i></a></p> -->
+                <li class="deco caddie" title="Panier d'articles"><a href="index.php?route=basketProducts" aria-label="Accedez au panier d'articles"><i class="animate__animated animate__rubberBand fa-solid fa-cart-shopping"></i></a></li>
             </ul>
         </div>
-        <p class="deco caddie"><a href="index.php?route=basketProducts"><i class="animate__animated animate__rubberBand fa-solid fa-cart-shopping"></i></a></p>
     </nav>
     <!-- Fin de la barre de navigation -->
 
     <main>
         <?php include $template ?>
     </main>
-
     <!-- Pied de page -->
     <footer id="navBot">
         <ul class="listIcons">

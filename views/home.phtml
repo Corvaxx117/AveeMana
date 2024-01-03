@@ -1,21 +1,24 @@
 <img class="banniere" src="libraries/assets/image/banniere_clip.png" alt="bannière Avee Mana - Inner Life">
 <header class="home">
-    <svg class="outNow" viewbox="0 0 1350 400">
-        <text x="50%" y="50%" fill="transparent" text-anchor="middle">
-            OUT NOW
-        </text>
-    </svg>
-    <h2 class="pageTitle homeTitle">MENU</h2>
     <?php if (isset($_SESSION['user'])) : ?>
-        <h2 class="animate__animated animate__bounceInLeft"> Vous êtes connecté <?= htmlspecialchars($_SESSION['user']['firstname']) ?> !</h2>
+        <svg class="outNow" viewbox="0 0 1350 400">
+            <text x="50%" y="50%" fill="transparent" text-anchor="middle">
+                Vous êtes connecté(e) <?= htmlspecialchars($_SESSION['user']['firstname']) ?> !
+            </text>
+        </svg>
     <?php endif; ?>
+    <h2 class="pageTitle homeTitle">MENU</h2>
     <hr>
     <section> <!-- FORMULAIRE D'AJOUT D'EVENEMENT (ADMIN) -->
         <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
-            <?php require_once 'errors.phtml'; ?>
-            <?php require_once 'valids.phtml'; ?>
+            <div class="profile animate__animated animate__tada">
+                <div class="errorContainer">
+                    <?php require_once 'errors.phtml'; ?>
+                    <?php require_once 'valids.phtml'; ?>
+                </div>
+            </div>
             <div class="formProduct">
-                <h3> Vous pouvez ajouter un évenement</h3>
+                <h3 class="pText"> Vous pouvez ajouter un évenement</h3>
                 <form action="index.php?route=submitFormAddEvent" method="POST" enctype="multipart/form-data">
                     <label for="title">Entrez l'intitulé de l'événement :</label>
                     <input type="text" name="title" id="title" placeholder="Ne pas oublier le nom de la salle !" required>
@@ -30,8 +33,8 @@
                     <div><input type="text" name="city" id="city" placeholder="Ville ?" required></div>
 
                     <label for="cover">Indiquez le nom du fichier de l'image. ex: cover.jpeg :</label>
-                    <input type="file" name="cover" id="cover" accept=".jpeg, .jpg, .png, .heic, .gif" required>
-                    <small>Taille maximale : 2 Mo, extensions autorisées : JPEG, JPG, PNG, HEIC ou GIF</small>
+                    <input type="file" name="cover" id="cover" accept=".jpeg, .jpg, .png, .heic, .gif, .WebP" required>
+                    <small>Taille maximale : 8 Mo, extensions autorisées : JPEG, JPG, PNG, HEIC, GIF ou WEBP</small>
 
                     <input type="hidden" value="<?= $token ?>" name="shield">
                     <input type="submit" value="Valider" class="formbutton" />
@@ -46,19 +49,20 @@
             <?php foreach ($events as $event) : ?>
                 <div class="flexB">
                     <div class="imgContainer">
-                        <img src="libraries/assets/image/<?= htmlspecialchars($event['cover']) ?>" alt="photo ou affiche de l'évènement concerné">
+                        <img src="libraries/assets/image/<?= htmlspecialchars($event['cover']) ?>" alt="photo ou affiche de l'évènement concerné" width="400" height="auto">
                     </div>
+                    <!-- <div><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d11620.601934474245!2d5.4245633!3d43.2692231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1703821171103!5m2!1sfr!2sfr" width="300" height="200" style="border:0;" allowfullscreen="yes" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div> -->
                     <div class="cell">
-                        <span class="bth-day"><?= htmlspecialchars($event['eventDate']) ?></span>
+                        <span class="bth-day pText"><?= htmlspecialchars($event['eventDate']) ?></span>
                     </div>
                     <div class="cell event-cell">
                         <div class="scope">
-                            <div class="bth-title"><?= htmlspecialchars($event['title']) ?></div>
-                            <div class="bth-desc">
+                            <div class="bth-title pText"><?= htmlspecialchars($event['title']) ?></div>
+                            <div class="bth-desc pText">
                                 <p><?= htmlspecialchars($event['description']) ?></p>
                             </div>
-                            <span class="slash"> &nbsp;/&nbsp;</span>
-                            <div class="bth-location"><?= htmlspecialchars($event['city']) ?></div>
+                            <span class="slash"> &nbsp;-&nbsp;</span>
+                            <div class="bth-location pText"><?= htmlspecialchars($event['city']) ?></div>
                         </div>
                     </div>
                     <div class="cell-ticket">
@@ -68,10 +72,11 @@
                             </a>
                         </div>
                     </div>
+
                     <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
                         <form method="post" action="index.php?route=deleteEvent">
                             <input type="hidden" name="eventId" value="<?= htmlspecialchars($event['id']) ?>">
-                            <button type="submit" class="deleteBtn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet évènement ?')">Supprimer l'évenement</button>
+                            <button type="submit" class="deleteBtn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet évènement ?')">Supprimer</button>
                         </form>
                     <?php endif; ?>
                 </div>

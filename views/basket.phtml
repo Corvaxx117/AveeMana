@@ -1,66 +1,95 @@
 <header>
     <h2 class="pageTitle">PANIER</h2>
+    <div class="profile animate__animated animate__tada">
+        <div class="errorContainer">
+            <?php require_once 'errors.phtml'; ?>
+            <?php require_once 'valids.phtml'; ?>
+        </div>
+    </div>
     <?php if (isset($_COOKIE['basket'])) : ?>
         <div class="CartContainer">
             <div class="Header">
-                <h3 class="Heading animate__animated animate__tada itemsSelectionTitle">VOTRE SELECTION D'ARTICLES</h3>
-                <h3><a class="linkShop" href="index.php?route=shop">CONTINUER MES ACHATS</a></h3>
-                <a class="Action" href="index.php?route=deleteAllBasket">Remove All</a>
+                <!-- <h3 class="Heading animate__animated animate__tada itemsSelectionTitle">VOTRE SELECTION D'ARTICLES</h3> -->
+                <!-- <h3><a class="linkShop" href="index.php?route=shop">CONTINUER MES ACHATS</a></h3> -->
+                <div class="button-container-1">
+                    <span class="mas-1">CONTINUER MES ACHATS</span>
+                    <a href="index.php?route=shop">
+                        <button type="button">CONTINUER MES ACHATS</button>
+                    </a>
+                </div>
+                <a class="action" href="index.php?route=deleteAllBasket">Vider le panier</a>
+            </div>
+
+            <?php $hasTShirt = false; ?>
+            <?php foreach ($products as $product) : ?>
+                <?php if ($product['qty'] != 0) : ?>
+                    <div class="Cart-Items">
+                        <div class="image-box">
+                            <img src="libraries/assets/image/<?= htmlspecialchars($product['picture_path']) ?>" alt="l'image du produit" />
+                        </div>
+                        <div class="about">
+                            <h3 class="title"><?= htmlspecialchars($product['name']) ?></h3>
+                            <h3 class="descrip"><?= htmlspecialchars($product['description']) ?></h3>
+                        </div>
+                        <div class="counter">
+                            <a class="btn" href="index.php?route=addToBasket&id=<?= htmlspecialchars($product['id']); ?>&action=remove">-</a>
+                            <div class="count"><?= htmlspecialchars($product['qty']) ?></div>
+                            <a class="btn" href="index.php?route=addToBasket&id=<?= htmlspecialchars($product['id']); ?>&action=add">+</a>
+                        </div>
+                        <div class="prices">
+                            <div class="amount"><?= htmlspecialchars($product['price'] * $product['qty']) ?> €</div>
+                            <a class="remove" href="index.php?route=removeFromBasket&id=<?= htmlspecialchars($product['id']); ?>">Retirer</a>
+                        </div>
+                    </div>
+                    <hr class="line">
+
+                    <?php if (stripos($product['name'], 't-shirt') !== false) : ?>
+                        <?php $hasTShirt = true; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <div class="checkout">
+
+                <div class="items">Nombre d'articles : <?= htmlspecialchars($totalItems) ?></div>
+                <div class="total">
+                    <div class="Subtotal">Total : </div>
+                    <div class="total-amount"><?= htmlspecialchars($totalPrice) ?> €</div>
+                </div>
+                <!-- Afficher le formulaire uniquement s'il y a au moins un t-shirt dans le panier -->
+                <?php if ($hasTShirt) : ?>
+                    <form method="post" class="formSelectSize" action="index.php?route=checkOrderBeforePayment">
+                        <div class="sizeAndBtn">
+                            <label for="size" class="sizeSelecter">Choisissez la taille :</label>
+                            <select id="size" name="size">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                            <div class="button-container-1">
+                                <span class="mas-1">VALIDER MA COMMANDE</span>
+                                <!-- <input type="submit" name="submit" value="VALIDER MA COMMANDE"> -->
+                                <button type="submit">VALIDER MA COMMANDE</button>
+                            </div>
+                        </div>
+                    </form>
+                <?php else : ?>
+                    <!-- Afficher le bouton de validation sans le formulaire de taille -->
+                    <form method="post" action="index.php?route=checkOrderBeforePayment">
+                        <input type="submit" name="submit" value="VALIDER MA COMMANDE">
+                    </form>
+                <?php endif; ?>
             </div>
         <?php else : ?>
+            <p class="pText">VOTRE PANIER D'ARTICLE EST VIDE</p>
             <img class="johnT" src="https://media.giphy.com/media/3o6UB5RrlQuMfZp82Y/giphy.gif" alt="gif John travolta">
-            <h2>VOTRE PANIER D'ARTICLE EST VIDE POUR LE MOMENT</h2>
-            <h3>Vous pouvez retrouver nos articles dans la boutique</h3>
+            <p class="pText">Retrouvez nos articles dans la boutique</p>
             <div class="linkShopping">
                 <img class="lilGif" src="https://media.giphy.com/media/72HahsJD4atSE/giphy.gif" alt="gif pluie de billets">
                 <h2><a class="linkShop" href="index.php?route=shop">BOUTIQUE</a></h2>
                 <img class="lilGif" src="https://media.giphy.com/media/72HahsJD4atSE/giphy.gif" alt="gif pluie de billets">
             </div>
         <?php endif; ?>
-        <?php foreach ($products as $product) : ?>
-            <?php if ($product['qty'] != 0) : ?>
-                <div class="Cart-Items">
-                    <div class="image-box">
-                        <img src="libraries/assets/image/<?= htmlspecialchars($product['picture_path']) ?>" alt="l'image du produit" />
-                    </div>
-                    <div class="about">
-                        <h3 class="title"><?= htmlspecialchars($product['name']) ?></h3>
-                        <h3 class="descrip"><?= htmlspecialchars($product['description']) ?></h3>
-                    </div>
-                    <div class="counter">
-                        <a class="btn" href="index.php?route=addToBasket&id=<?= htmlspecialchars($product['id']); ?>&action=remove">-</a>
-                        <div class="count"><?= htmlspecialchars($product['qty']) ?></div>
-                        <a class="btn" href="index.php?route=addToBasket&id=<?= htmlspecialchars($product['id']); ?>&action=add">+</a>
-                    </div>
-                    <div class="prices">
-                        <div class="amount"><?= htmlspecialchars($product['price'] * $product['qty']) ?> €</div>
-                        <a class="remove" href="index.php?route=removeFromBasket&id=<?= htmlspecialchars($product['id']); ?>"><u>Remove</u></a>
-                    </div>
-                </div>
-                <hr class="line">
-            <?php else : ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-        <?php if (isset($_COOKIE['basket']) && $product['qty'] > 0) : ?>
-            <div class="checkout">
-                <div class="total">
-                    <div class="items">Nombre d'articles : <?= htmlspecialchars($totalItems) ?></div>
-                    <div class="Subtotal">Total</div>
-                    <div class="total-amount"><?= htmlspecialchars($totalPrice) ?> €</div>
-                </div>
-                <?php if (isset($_SESSION['user'])) : ?>
-                    <div id="paypal-button-container" href="index.php?route=proceedOrder" style="max-width:1000px"></div>
-                    <script>
-                        const totalPrice = <?php echo json_encode(htmlspecialchars($totalPrice)); ?>;
-                    </script>
-                    <script src="https://www.paypal.com/sdk/js?client-id=AdQVOziDGR6JBQCVZf0mKNysZjzQIcazlfPDMCitgZW1AVTTiSFJYeXWpfd8ML2wkyVOCNNJkoRtD40e&currency=EUR"></script>
-                    <script src="./libraries/js/class/paypalPayment.js"></script>
-                    <!-- <a href="index.php?route=proceedOrder" class="button">Commander</a> -->
-                <?php else : ?>
-                    <p class="warning">Veuillez vous connecter pour effectuer la commande</p>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
-
         </div>
 </header>

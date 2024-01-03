@@ -5,9 +5,13 @@
         <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 2) : ?>
             <!-- AFFICHAGE FORMULAIRE D'AJOUT DE PRODUIT DANS LA BDD (ADMIN) -->
             <div class="formProduct">
-                <h3> Vous pouvez ajouter un article dans la boutique</h3>
-                <?php require_once 'errors.phtml'; ?>
-                <?php require_once 'valids.phtml'; ?>
+                <h3 class="pText"> Vous pouvez ajouter un article dans la boutique</h3>
+                <div class="profile animate__animated animate__tada">
+                    <div class="errorContainer">
+                        <?php require_once 'errors.phtml'; ?>
+                        <?php require_once 'valids.phtml'; ?>
+                    </div>
+                </div>
                 <form action="index.php?route=submitFormAddProduct" method="POST" enctype="multipart/form-data">
 
                     <label for="name">Entrez le nom du produit</label>
@@ -20,11 +24,12 @@
                     <input type="number" name="price" id="price" placeholder="Prix">
 
                     <label for="quantity_in_stock">Indiquez la quantité en stock</label>
-                    <div><input type="number" name="quantity_in_stock" id="quantity_in_stock_1" placeholder="Quantité"></div>
+                    <input type="number" name="quantity_in_stock" id="quantity_in_stock_1" placeholder="Quantité">
 
                     <label for="picture_path">Indiquez le nom du fichier de l'image. ex: cover.jpeg</label>
                     <input type="file" name="picture_path" id="picture_path">
-                    <small>Taille maximale : 2mo, extensions autorisées : JPEG, JPG, PNG, HEIC ou GIF</small>
+                    <small>Taille maximale : 8mo, extensions autorisées : JPEG, JPG, PNG, HEIC, WEBP ou GIF</small>
+                    <small>(Privilégier le format .webp)</small>
                     <input type="submit" value="Valider" class="formbutton" />
                 </form>
             </div>
@@ -41,14 +46,14 @@
                     <div class="card-header">
                         <h4 class="title"><?= htmlspecialchars($product['name']) ?></h4>
                         <div class="infos">
-                            <h4 class="price"><?= htmlspecialchars($product['price']) ?> €</h4>
-                            <h4 class="quantityInStock price"><?= htmlspecialchars($product['quantity_in_stock']) ?> en stock</h4>
+                            <p class="price pText"><?= htmlspecialchars($product['price']) ?> €</p>
+                            <p class="quantityInStock price pText"><?= htmlspecialchars($product['quantity_in_stock']) ?> en stock</p>
                         </div>
                     </div>
                     <div class="card-body">
-                        <hr>
+                        <!-- <hr> -->
                         <p><?= htmlspecialchars($product['description']) ?></p>
-                        <hr>
+                        <!-- <hr> -->
                     </div>
                     <form>
                         <div class="card-footer">
@@ -62,7 +67,13 @@
                                 <?php endif; ?>
                             <?php else : ?>
                                 <?php if ($product['quantity_in_stock'] != 0 && $product['activate'] == 1) : ?>
-                                    <a href="index.php?route=addToBasket&id=<?= $product['id'] ?>&action=add" class="addToCard">Ajouter au panier</a>
+                                    <!-- <a href="index.php?route=addToBasket&id=<?= $product['id'] ?>&action=add" class="addToCard">Ajouter au panier</a> -->
+                                    <div class="button-container-2">
+                                        <span class="mas-2">Acheter</span>
+                                        <a href="index.php?route=addToBasket&id=<?= $product['id'] ?>&action=add">
+                                            <button type="button">Ajouter au panier</button>
+                                        </a>
+                                    </div>
                                 <?php else : ?>
                                     <p class="soldOut">SOLD OUT</p>
                                 <?php endif; ?>

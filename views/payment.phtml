@@ -1,0 +1,44 @@
+<header>
+    <h2 class="pageTitle">RECAPITULATIF</h2>
+    <div class="profile animate__animated animate__tada">
+        <div class="errorContainer">
+            <?php require_once 'errors.phtml'; ?>
+            <?php require_once 'valids.phtml'; ?>
+        </div>
+    </div>
+    <?php if (isset($_COOKIE['basket'])) : ?>
+        <div class="order-summary">
+            <div class="checkoutPayment">
+                <?php foreach ($products as $product) : ?>
+                    <div class="order-details">
+                        <img src="libraries/assets/image/<?= htmlspecialchars($product['picture_path']) ?>" alt="l'image du produit" width="130" />
+                    </div>
+                    <div class="summaryTitle"><?= htmlspecialchars($product['name']) ?></div>
+                    <div class="summaryCount">Quantité : <?= htmlspecialchars($product['qty']) ?></div>
+                    <div class="summaryAmount">Prix : <?= htmlspecialchars($product['price'] * $product['qty']) ?> €</div>
+                    <?php if (stripos($product['name'], 't-shirt') !== false && isset($_SESSION['size']) && $_SESSION['size'] != '') : ?>
+                        <p class="summarySize">Taille : <?= htmlspecialchars($_SESSION['size']) ?></p>
+                    <?php endif; ?>
+                    <hr class="hrSummary">
+                <?php endforeach; ?>
+                <div class="summaryItems">NOMBRE TOTAL D'ARTICLES : <?= htmlspecialchars(intval($totalItems)) ?></div>
+                <div class="summaryTotal">
+                    <div class="Subtotal">TOTAL : </div>
+                    <div class="total-amount" data-total-price="<?= htmlspecialchars($totalPrice) ?>"><?= htmlspecialchars($totalPrice) ?> €</div>
+                </div>
+            </div>
+            <?php if (isset($_SESSION['user'])) : ?>
+                <div class="payment-section">
+                    <!-- <h3>Paiement</h3> -->
+                    <div id="paypal-button-container" href="index.php?route=checkOrderBeforePayment" style="max-width:1000px"></div>
+                    <script src="https://www.paypal.com/sdk/js?client-id=AdQVOziDGR6JBQCVZf0mKNysZjzQIcazlfPDMCitgZW1AVTTiSFJYeXWpfd8ML2wkyVOCNNJkoRtD40e&currency=EUR"></script>
+                    <script src="./libraries/js/class/paypalPayment.js"></script>
+                </div>
+            <?php else : ?>
+                <p class="warning">Veuillez vous connecter pour effectuer la commande</p>
+            <?php endif; ?>
+        </div>
+        </div>
+    <?php endif; ?>
+
+</header>
