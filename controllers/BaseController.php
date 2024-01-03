@@ -20,7 +20,7 @@ abstract class BaseController extends ModelsLoader
     protected $productsModel;
     protected $uploadsModel;
     protected $customersModel;
-    protected $mediaModel;
+    protected $mediasModel;
 
 
     public function __construct()
@@ -32,6 +32,6 @@ abstract class BaseController extends ModelsLoader
         $this->productsModel = new Products();
         $this->uploadsModel = new Uploads();
         $this->customersModel = new Customers();
-        $this->mediaModel = new Medias();
+        $this->mediasModel = new Medias();
     }
 }

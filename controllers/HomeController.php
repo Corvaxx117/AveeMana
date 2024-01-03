@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Exception;
+
 class HomeController extends BaseController
 {
     // AFFICHAGE DE LA PAGE D'ACCUEIL
@@ -47,20 +49,20 @@ class HomeController extends BaseController
             }
             // SI PAS D'ERREUR 
             if (count($errors) == 0) {
-
                 $newNameFile = $this->uploadsModel->uploadingfiles($_FILES['cover'], 'image', $errors);
+                if (count($errors) == 0) {
+                    $data = [
 
-                $data = [
+                        trim($_POST['date']),
+                        trim(ucfirst($_POST['title'])),
+                        trim($_POST['city']),
+                        trim(ucfirst($_POST['description'])),
+                        trim($newNameFile)
 
-                    trim($_POST['date']),
-                    trim(ucfirst($_POST['title'])),
-                    trim($_POST['city']),
-                    trim(ucfirst($_POST['description'])),
-                    trim($newNameFile)
-
-                ];
-                $resultNewEvent = $this->eventsModel->addNewEvent($data);
-                $valids[] = 'Votre demande d\'ajout d\'évènement a bien été enregistrée.';
+                    ];
+                    $resultNewEvent = $this->eventsModel->addNewEvent($data);
+                    $valids[] = 'Votre demande d\'ajout d\'évènement a bien été enregistrée.';
+                }
             }
         }
         $events = $this->eventsModel->getAllEvents();
@@ -76,15 +78,15 @@ class HomeController extends BaseController
     {
         $errors = [];
         $valids = [];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (isset($_POST['eventId'])) {
                 $eventId = $_POST['eventId'];
-                
+
                 try {
                     // Récupérer l'événement à supprimer
                     $event = $this->eventsModel->getEventById($eventId);
-                    
+
                     if ($event) {
                         // Récupérer le nom du fichier de l'image associée à l'événement
                         $imageName = $event['cover'];

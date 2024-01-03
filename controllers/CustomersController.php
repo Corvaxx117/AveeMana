@@ -21,7 +21,7 @@ class CustomersController extends BaseController
         include_once 'views/layout.phtml';
     }
     // VERIFICATION DES DONNEES ENVOYEES PAR L'UTILISATEUR
-    public function formUserValidator(&$errors, $excludeEmail = false)
+    public function formUserValidator(array &$errors, bool $excludeEmail = false)
     {
         // Si tous les champs sont rempli :
         if (
@@ -66,6 +66,13 @@ class CustomersController extends BaseController
                 $errors[] = 'Un problème est survenu lors de la soumission du formulaire.';
             }
         }
+    }
+    // REDIRECTION VERS LE COMPTE USER SI LA ERREUR FORMULAIRE UPDATE
+    function redirectToAccount(array $errors = [])
+    {
+        $_SESSION['errors'] = $errors;
+        header('Location: index.php?route=userAccount');
+        exit;
     }
     // SOUMISSION DES DONNEES POUR AJOUT D'UTILISATEUR
     public function submitFormAddUser()
@@ -147,8 +154,7 @@ class CustomersController extends BaseController
         $this->formUserValidator($errors, true);
         // Si il y a une erreur, on reaffiche la page
         if (!empty($errors)) {
-            $this->displayAccountUser($errors);
-            return;
+            $this->redirectToAccount($errors, $valids);
         } else {
             // Hashage du nouveau password
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);

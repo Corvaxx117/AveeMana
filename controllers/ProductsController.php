@@ -5,7 +5,7 @@ namespace Controllers;
 class ProductsController extends BaseController
 {
     // AFFICHAGE DE LA BOUTIQUE
-    public function displayAllProducts()
+    public function displayAllProducts(array $errors, array $valids)
     {
         // token
         $token = $this->randomString->getRandomString(30);
@@ -21,7 +21,7 @@ class ProductsController extends BaseController
     {
         $errors = [];
         $valids = [];
-        // die();
+
         if (
             array_key_exists('name', $_POST) &&
             array_key_exists('description', $_POST) &&
@@ -55,31 +55,21 @@ class ProductsController extends BaseController
                         trim($_POST['price']),
                         trim($_POST['quantity_in_stock']),
                         trim($newNameFile)
-
                     ];
                     $resultNewProduct =  $this->productsModel->addNewProduct($data);
                     $valids[] = 'Votre demande d\'ajout de produit a bien été enregistrée.';
                 } else {
-                    // token
-                    $token = $this->randomString->getRandomString(30);
-                    $_SESSION['shield'] = $token;
-                    
-                    $products =  $this->productsModel->getAllProducts();
-                    $template = 'products.phtml';
-                    include_once 'views/layout.phtml';
+                    $error[] = 'Un problème est intervenu lors du téléchargement de l\'image.';
+                    $this->displayAllProducts($errors, $valids);
                 }
             }
+        } else {
+            $error[] = 'Le fichier est trop volumineux.';
         }
-        // token
-        $token = $this->randomString->getRandomString(30);
-        $_SESSION['shield'] = $token;
-                    
-        $products =  $this->productsModel->getAllProducts();
-        $template = 'products.phtml';
-        include_once 'views/layout.phtml';
+        $this->displayAllProducts($errors, $valids);
     }
     // MASQUER OU REAFFICHER UN PRODUIT DE LA BOUTIQUE
-    public function hideOrShowProduct($id, $action)
+    public function hideOrShowProduct(int $id, string $action)
     {
         $status = 1;
         if ($action == 'hide') $status = 0;
@@ -88,5 +78,4 @@ class ProductsController extends BaseController
         header('location:index.php?route=shop');
         exit;
     }
-
 }
