@@ -10,14 +10,15 @@ class Uploads extends Mimes
         string $path,
         array &$errors,
         // valeurs par defaut, écrasées selon l'envoi de paramètres 
-        int $maxSize = 2000,
-        array $ext_authorized = ["jpeg", "jpg", "png", "heic", "gif"]
+        int $maxSize = 800000,
+        array $ext_authorized = ["jpeg", "jpg", "png", "heic", "gif", "webp"]
     ) {
         $filename = '';
         // Liste des extensions de fichiers autorisées
         $allowedTypes = $this->listMimes();
 
         // VERIFICATIONS DU FICHIER
+
         // Création des variables relatives au fichier uploadé :     
         extract($filetoverify);  // $name, $full_path, $type, $tmp_name, $error, $size
         // Verification de la taille
