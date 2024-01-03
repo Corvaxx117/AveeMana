@@ -53,6 +53,45 @@ form input{
   margin-bottom: 1em;
   padding: 7px;
 }
+.pText {
+  font-family: 'Carter One', serif;
+  font-size: 20px;
+}
+.pText>label {
+  font-family: 'Lexend Deca Bold', sans-serif;
+  color: #ffffff;
+}
+
+/* -----------------------------  MESSAGE D'ERREURS / VALIDATION ----- */
+
+.valids, 
+.errors {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px -5px rgb(19, 19, 19);
+  border: 2px solid black;
+  /* width: 60%; */
+  margin-bottom: 1em;
+  z-index: -10;
+}
+.valids>ul, 
+.errors>ul {
+  padding: 0;
+  margin: 0;
+  /* justify-content: center; */
+}
+.errors>ul>li,
+.valids>ul>li {
+  display: flex;
+  background-color: #ba3f3f;
+  color:#bfc3df;
+  padding: 7px;
+  list-style: none;
+}
+.valids>ul>li {
+  background-color: #6ea14e;
+}
+
 
 /*******************************************************************************************
   -------------------------------------------------- HEADER
@@ -64,7 +103,7 @@ header {
   flex-direction: column;
   justify-content:center;
   align-items:center;
-  margin: 6em 0;
+  margin: 6em 0 25em 0;
 }
 
 header h1 {
@@ -114,20 +153,15 @@ header button {
   top: 35px;
   left: 0;
 }
-/* .hamburger-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
 .menuBtn {
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  top: 30px;
-  left: 55px;
-  width: 55px;
-  height: 55px;
+  top: 3%;
+  left: 3%;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   z-index: 3;
   transition: .5s ease;
@@ -176,8 +210,8 @@ transform: scale(1.5);
   display: block;
   padding: 12px 24px;
   color: #333;
-  font-family: 'Carter One', serif;
-  font-size: 24px;
+  font-family: 'Lilita One', cursive;
+  font-size: 20px;
   font-weight: 600;
   text-decoration: none;
   transition-duration: .25s;
@@ -189,7 +223,7 @@ transform: scale(1.5);
 /* --- Fin Hamburger / side nav --- */
 
 .transition {
-  margin-left: 25%;
+  margin-left: 15%;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -206,7 +240,7 @@ nav {
   background-color: #110d15;
   position: fixed;
   width: 100%;
-  height: 100px;
+  height: 95px;
   top: 0;
   transition: opacity 0.5s ease;
   z-index: 9999;
@@ -215,8 +249,9 @@ nav {
   font-size: 20px;
 }
 .onglets {
-  height: 100%; 
-  width: 30%;
+  /* height: 100%;  */
+  /* width: 30%; */
+  margin-right: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -230,14 +265,13 @@ nav .onglets ul {
 }
 nav .onglets ul li {
   padding: 0;
-  font-size: 20px;
+  font-size: 14px;
   margin-right: 25px;
   height: 100%; 
-  
   list-style: none;
   cursor:pointer;
-  font-family: 'Carter One', serif;
-  transition: .7s ease;
+  font-family: 'Lilita One', cursive;
+  transition: .3s ease;
 }
 
 .caddie {
@@ -246,7 +280,8 @@ nav .onglets ul li {
   margin-right: 5%;
 }
 .caddie:hover {
-  transform: scale(1.2);
+  transform: scale(0.8);
+  color: #5ba1cf;
 } 
 
 /* Fin de la barre de navigation */
@@ -257,8 +292,8 @@ nav .onglets ul li {
 .pageTitle {
   font-family: 'Lilita One', cursive;
   cursor: pointer;
-  padding: 30px;
-  font-size: 5em;
+  padding: 25px;
+  font-size: 3.5em;
   margin-top: 4%;
   --c: #ccc3ce; 
   --b: .1em; 
@@ -322,11 +357,11 @@ nav .onglets ul li {
 }
 
 .outNow text {
-  stroke: #e9e9e9;
+  stroke: #dedede;
   font-size: 5em;
   font-weight: 700;
   stroke-width: 5;
-  animation: textAnimate 7s infinite alternate
+  animation: textAnimate 3s infinite alternate
 }
 
 @keyframes textAnimate {
@@ -339,7 +374,11 @@ nav .onglets ul li {
     stroke-dashoffset: -20%;
   }
 }
-
+.isConnected {
+  font-family: 'Lilita One', serif;
+  font-size: 2em;
+  color: #d0cece;
+}
 /* fin SVG */
 
 /* ----------------- SECTION EVENEMENTS --- */
@@ -349,7 +388,7 @@ nav .onglets ul li {
 }
 .eventTitle {
   font-family: 'Lilita One', serif;
-  font-size: 40px;
+  font-size: 1em;
   text-align: center;
 }
 .audioPlace, /* section audio galerie */
@@ -358,12 +397,12 @@ nav .onglets ul li {
   width: 65%;
   height: auto;
   /* background-color: #1d1a1a; */
-  background-image: url(../assets/image/bgc8.jpeg);
+  background-image: url(../assets/image/bgc8.webp);
   padding: 20px;
   font-family: 'Lexend Deca', sans-serif;
-  font-size: 1.2em;
-  box-shadow: 6px -6px rgb(19, 19, 19);
-  border: 4px solid black;
+  font-size: 1em;
+  box-shadow: 4px -4px rgb(19, 19, 19);
+  border: 4px solid rgb(20, 20, 20);
 }
 .scope,
 .flexB {
@@ -373,15 +412,16 @@ nav .onglets ul li {
   width: 100%;
 }
 .flexB {
-  margin: 10px;
-  padding: 20px
+  padding: 20px;
 }
 .imgContainer {
-  max-width: 10%;
-  max-height: 8%;
-}
+  max-width: 20%;
+  height: auto;
+
+} 
 .imgContainer img {
   background-size: cover;
+  border: 3px solid rgb(20, 20, 20);
 }
 
 .event-cell .bth-desc p {
@@ -398,7 +438,7 @@ nav .onglets ul li {
 }
 .event-cell:hover .bth-desc p {
   display: block;
-  font-size: 2em;
+  font-size: 1em;
 }
 .cell {
   /* background-color: #1d1a1a; */
@@ -462,10 +502,11 @@ hr {
   margin: 30px 12px;
   padding: 20px;
   border: 2px solid black;
-  border-radius: 1%;
-  background-image: url(../assets/image/bgc8.jpeg);
+  border-radius: 2%;
+  background-image: url(../assets/image/bgc8.webp);
   background-size: cover;
   color:  #110d15;
+  /* z-index: -1384; */
 }
 .card {
   width: 24%;
@@ -544,9 +585,9 @@ h4.title {
 .soldOut {
   padding: 8px;
   font-weight: bold;
-  color:#dbd6d6;
+  color:#d3cfcf;
   border: 2px solid #dbd6d6;
-  background-color: #c31c1c;
+  background-color: #822424;
 }
 /* Fin de toutes les cartes */
 
@@ -566,8 +607,14 @@ h4.title {
 .heading,
 .linkShop,
 .title,
-.Action,
-.warning{
+.action,
+.warning,
+.summaryAmount,
+.summaryCount,
+.summaryTitle,
+.summaryItems,
+.summarySize,
+.validateOrderBtn {
   font-family: 'Lilita One', cursive;
 }
 .CartContainer{
@@ -578,6 +625,7 @@ h4.title {
   box-shadow: 5px -5px rgb(19, 19, 19);
   border: 2px solid black;
   margin-bottom: 10em;
+  /* z-index: -100 */
 }
 .Header{
 	margin: auto;
@@ -592,12 +640,24 @@ h4.title {
 	font-weight: 700;
 	color: #2F3841;
 }
-.Action{
-	font-size: 20px;
+.action{
+	font-size: 1.5em;
 	font-weight: 600;
-	color: #E44C4C;
+	color: #9c1313;
 	cursor: pointer;
-	border-bottom: 1px solid #000000;
+  transition: .7s ease;
+}
+.remove {
+	padding-top: 5px;
+	font-size: 1em;
+	font-weight: 600;
+	color: #741111;
+	cursor: pointer;
+  transition: .7s ease;
+}
+.action:hover,
+.remove:hover {
+  transform: scale(1.2);
 }
 .Cart-Items{
 	margin: 30px 30px;
@@ -628,13 +688,16 @@ h4.title {
 	font-weight: 600;
 	color: #080829;
 }
+.sizeSelecter {
+  color: #202020;
+}
 .counter{
 	width: 15%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
-.btn{
+.btn {
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -662,41 +725,34 @@ h4.title {
 	font-weight: 800;
 	color: #202020;
 }
-.remove{
-	padding-top: 5px;
-	font-size: 14px;
-	font-weight: 600;
-	color: #E44C4C;
-	cursor: pointer;
-}
 .checkout{
   display: flex;
   justify-content: space-between;
   align-items: center;
-	margin: 0 20px 0 50%;
+	margin: 20px;
 }
-.total{
-  margin-top: 30px;
-	width: 100%;
+.total {
 	display: flex;
-	justify-content: space-between;
 }
 .Subtotal{
 	font-size: 20px;
 	font-weight: 700;
-	color: #302b2b;
+	color: black;
 }
 .items{
 	font-size: 20px;
 	font-weight: 500;
-	color: #302b2b;
+	color: black;
 	line-height: 40px;
 }
 .total-amount{
-  margin-right: 40px;
-	font-size: 25px;
+  margin: 0 30px;
+	font-size: 20px;
 	font-weight: 900;
-	color: #302b2b;
+	color: black;
+}
+.formSelectSize {
+  padding: 15px;
 }
 .button{
   padding: 10px;
@@ -719,8 +775,9 @@ h4.title {
 }
 .line{
 	width: 66%;
-	float: right;
-	margin-right: 5%;
+  margin-top: 40px;
+	/* float: right;
+	margin-right: 5%; */
 }
 .linkShopping {
   margin: 5em 0 10em 0;
@@ -732,18 +789,30 @@ h4.title {
   align-items: center;
   box-shadow: 5px -5px rgb(19, 19, 19);
   border: 2px solid black;
+  background-color: #dbd6d6;
 }
-.linkShop{
-  color: #bbddff;
+.linkShop,
+.validateOrderBtn {
+  color: #023537;
   font-weight: 700;
   transition: .8s ease;
   border-radius: 50px;
 }
-.linkShop:hover {
-  padding: 15px;
-  font-size: 24px;
+.linkShop:hover,
+.validateOrderBtn:hover {
+  padding: 10px;
+  margin: 10px;
+  font-size: 18px;
 	color: #dbd6d6;
   background-color: #2a2295;
+}
+.sizeAndBtn {
+  display: flex;
+  flex-direction: column;
+}
+.sizeAndBtn>select {
+  width: 50px;
+  margin: 20px;
 }
 .lilGif {
   width: 60px;
@@ -756,45 +825,85 @@ h4.title {
   height: 10%;
   margin-bottom: 4%;
 }
-    
-/* FIN DU PANIER */
+
+/* ---------------------------------- PAGE RECAPITULATIF DE LA COMMANDE AVANT PAIEMENT  ----- */
 
 
-/* ----------------------------- GESTION DES ERREURS ----- */
-
-.valids, 
-.errors {
-  display: flex;
-  flex-direction: column;
+.order-summary {
+	background-color: #bfc3df;
+  border-radius: 20px;
   box-shadow: 5px -5px rgb(19, 19, 19);
   border: 2px solid black;
+  margin: 10em 0;
+  padding: 30px;
 }
-.valids>ul, 
-.errors>ul {
-  padding: 0;
-  margin: 0;
+
+.checkoutPayment {
+	margin: 20px;
 }
-.errors>ul>li {
-  /* margin-top: 1em; */
-  background-color: #b83434;
-  color: #dbd6d6;
-  padding: 7px;
-  list-style: none;
+.order-details {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
-.valids>ul>li {
-  /* margin-top: 1em; */
-  background-color: #4b9120;
-  color: #dbd6d6;
-  padding: 7px;
-  list-style: none;
+.summaryTitle{
+	line-height: 30px;
+	font-size: 26px;
+	font-weight: 800;
+	color: #302b2b;
 }
+.summaryCount{
+  margin-top: 10px;
+	font-size: 20px;
+	font-weight: 600;
+	color: #302b2b;
+}
+
+.summaryAmount {
+margin-top: 10px;
+font-size: 20px;
+font-weight: 800;
+color: #302b2b;
+}
+.order-details h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.summarySize {
+  font-size: 15px;
+  color: #302b2b;
+}
+.payment-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.hrSummary {
+  margin: 40px 0;
+}
+.summaryItems {
+  margin-top: 40px;
+  font-size: 20px;
+	font-weight: 500;
+	color: black;
+	line-height: 40px;
+}
+.summaryTotal {
+  display: flex;
+  margin-top: 40px;
+}
+.warning {
+  color: #e44d26;
+  font-weight: bold;
+}
+
+/* FIN DU PANIER */
+
 
 /* --------------------------------- FORMULAIRES ----- */
 
 
 .formProduct, 
 .formUser{
-  margin: 50px 0 180px 0;
+  margin: 50px 20px 180px 20px;
   padding: 2em;
 }
 .formProduct>form, 
@@ -820,7 +929,7 @@ h4.title {
   background-color: #b6acac;
 }
 .formLogin {
-  margin-top: 400px;
+  margin-top: 150px;
 }
 
 /*******************************************************************************************
@@ -830,7 +939,7 @@ h4.title {
 
 .createAcc,
 .log{
-  font-size: 2.3em;
+  font-size: 1.5em;
 }
 .register {
   display: flex;
@@ -894,19 +1003,35 @@ font-family: 'Rampart One', sans-serif;
   cursor: pointer;
   opacity: 1;
 }
+.mediaBtn {
+  z-index: 10;
+  position: relative;
+}
 
 /* Style de la modale */
 .modal {
-  display: none; /* caché par défaut */
-  position: fixed; /* position fixe pour rester au-dessus du contenu */
-  z-index: 99999; /* empilement au-dessus des autres éléments */
+  display: none;
+  position: fixed;
+  z-index: 99999;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
-  overflow: auto; /* pour permettre le défilement lorsque la modale est ouverte */
+  height: auto;
+  overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.9); /* fond semi-transparent */
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Style pour le contenu de la modale */
+.modal-content {
+  display: block;
+  margin: 0;
+  max-width: 100vw; /* Utiliser 100% de la largeur de la vue */
+  max-height: auto; /* Utiliser 100% de la hauteur de la vue */
+  padding: 50px;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
 }
 
 /* Style pour la fermeture de la modale */
@@ -927,33 +1052,12 @@ font-family: 'Rampart One', sans-serif;
   cursor: pointer;
 }
 
-/* Style pour le contenu de la modale */
-.modal-content {
-  display: block;
-  margin: 5% auto auto auto;
-  max-width: 80%; /* Pour que l'image ne dépasse pas la taille de la modale */
-  max-height: 80%; /* Pour que l'image ne dépasse pas la hauteur de la fenêtre */
-  padding: 50px;
-  width: 80%;
-  height: auto;
-}
-
 /* AUDIOS */ 
 
-/* ------------------------------------------ SPRITE PLATINE VINYLE ---*/
-
-.platineContainer {
-  padding: 0;
-  width: 140px;
-  height: 100px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
 .audioTitle {
   margin-top: 4em;
 }
-.audioPlace {
+/* .audioPlace {
   margin-bottom: 4em;
   width: 80%;
 }
@@ -994,8 +1098,73 @@ font-family: 'Rampart One', sans-serif;
 .galleryAudios audio:focus {
   outline: none;
   box-shadow: 0 0 0 3px #023537;
-}
+} */
 /* Fin de la galerie */
+
+
+/*******************************************************************************************
+-------------------------------------------------- PAGE CONTACT
+*******************************************************************************************/
+
+/* ----------------------- CONTACT SECTION ----------------------- */
+.contact-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-container {
+  width: auto;
+  padding: 40px;
+  /* max-width: 1200px; */
+  margin: auto;
+  text-align: center;
+  font-family: 'Lilita One', cursive;
+  font-size: 1.2em;
+  box-shadow: 6px -6px rgb(19, 19, 19);
+  border: 4px solid black;
+}
+
+.contact-info,
+.contact-form {
+  margin-bottom: 30px;
+}
+
+.contact-info p {
+  margin: 10px 0;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-form label,
+.contact-form textarea,
+.contact-form input {
+  margin: 10px 0;
+  font-family: 'Lilita One', cursive;
+  font-size: .7em;
+}
+
+/* Adjust the textarea height */
+#message {
+  height: 130px;
+  width: 100%;
+}
+
+
+/* ------------------------------------------ SPRITE PLATINE VINYLE ---*/
+
+/* .platineContainer {
+  padding: 0;
+  width: 180px;
+  height: 140px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+} */
 
 
 /*******************************************************************************************
@@ -1004,6 +1173,9 @@ font-family: 'Rampart One', sans-serif;
 
 
 .userArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 5em;
   height: 100%;
   background: linear-gradient(to right, #0d2d37, #301d42);
@@ -1011,6 +1183,11 @@ font-family: 'Rampart One', sans-serif;
 }
 .userArea h2 {
   color: #d0cece
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .heading {
   font-family: 'Carter One', serif;
@@ -1053,7 +1230,7 @@ font-family: 'Rampart One', sans-serif;
   padding: 20px;
   margin: 20px;
   /* background-color: #301d42; */
-  background-image: url(../assets/image/bgc8.jpeg);
+  background-image: url(../assets/image/bgc8.webp);
   box-shadow: 5px -5px rgb(19, 19, 19);
   border: 2px solid #242627;
   border-radius: 10%;
@@ -1121,13 +1298,13 @@ font-family: 'Rampart One', sans-serif;
   font-size: 16px;
 }
 .fl-table thead th {
-  color:#c6c6c6;
-  background: #136880;
-  font-family: 'Rempart One', sans-serif;
+  color:#dfdfdf;
+  background: #005269;
+  font-family: 'Lilita One', cursive;
 }
 .fl-table thead th:nth-child(odd) {
-  color: #c6c6c6;
-  background: #460b61;
+  color: #dfdfdf;
+  background: #300046;
 }
 .fl-table tr:nth-child(even) {
   background: #F8F8F8;
@@ -1163,8 +1340,8 @@ footer {
   width: 100%;
   bottom: 0;
   left: 0;
-  transition: opacity 0.5s ease-in-out;
-  z-index: 999;
+  transition: opacity 0.3s ease-in-out;
+  /* z-index: 999; */
 }
 
 /* Evenement js au scroll */
@@ -1184,7 +1361,7 @@ footer {
 
 .listIcons>li {
   color: #e9e9e9;
-  font-size: 50px;
+  font-size: 2em;
   list-style: none;
   margin-right: 15px;
   padding: 10px;
@@ -1221,123 +1398,175 @@ footer {
 
 
 @media only screen and (max-width: 1392px) {
-  /* nav */
-  .onglets {
+  /* ------------- Layout */
+  .transition {
+    margin-left: 10%;
+    width: 100%;
+  }
+  .dNone {
     display: none;
   }
-  /* Shop */
+  .onglets {
+    font-size: 1em;
+  }
+  .pageTitle {
+    font-size: 40px;
+  }
+  /* side bar */
+  .menuBox {
+    width: 20%;
+  }
+  .menuItem {
+    font-size: 1em;
+  }
+  /* -------------- Shop */
   .cards {
     justify-content: space-evenly;
   }
-  /* h4.price {
-    font-size: 12px;
-  } */
   .listIcons {
     margin-left: 20%;
     font-size: 10px;
   }
-  /* Footer Panier */
+  /* --------------- Basket */
   .checkout{
     margin: 0 20px;
   }
+
 }
 
-/* --------------- Ordinateurs portables ------------ */
+/* ----------------------------- Ordinateurs portables ------------ */
+
 
 @media only screen and (max-width: 992px) {
-  /* image top home */ 
-  .banniere {
-    margin-top: 10%;
-  }
-  /* TITRES */
-  .pageTitle {
-    font-size: 50px;
-  }
-  /* side bar */
-  .menuBox {
-    width: 35%;
-  }
-  .menuItem {
-    font-size: 18px;
-  }
-  /* Home Events */
-  .flexB {
-  display: flex;
+.formProduct {
+  padding: 15px;
+}
+.formProduct>form {
+  font-size: 1em;
+  padding: 10px;
+}
+.formProduct>form>label,
+.formProduct>form>input {
+  padding: 10px;
+  font-size: .7em;
+}
+  /* ------------ Layout  */
+
+.pText {
+  font-size: .8em;
+}
+.caddie a {
+  font-size: .8em;
+}
+.pageTitle {
+  font-size: 50px;
+}
+.menuBtn {
+  width: 50px;
+  height: 50px;
+}
+.menuBox {
+  width: 35%;
+}
+.menuItem {
+  font-size: 18px;
+}
+/* Icones navbot */
+.listIcons {
+  margin-left: 30%;
+}
+.delete-container {
+  padding:30px;
+}
+.btn-delete-order {
+  font-size: 10px;
+}
+.signature {
+  z-index: -1;
+}
+
+/*  ----------- Home */
+
+.banniere {
+  margin-top: 10%;
+}
+/* Home Events */
+.eventsPlace {
+  width: 80%;
+}
+.eventTitle {
+  font-size: 1.5em;
+}
+.flexB {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.cell,
+.ticketBtn {
+  margin: 15px 0;
+}
+/* -------------- UserArea */
+.infosUser {
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  }
-  .cell,
-  .ticketBtn {
-    margin: 15px 0;
-  }
-  /* Mon compte */
-  .infosUser {
-    flex-direction: column;
-  }
-  /* tableau commandes */
-  .fl-table {
+}
+
+/* Tableau des commandes */
+
+.fl-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.fl-table th, .fl-table td {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: .7em;
+}
+
+/* .fl-table td {
+  width: 90%;
+} */
+.fl-table th {
+  background-color: #f2f2f2;
+}
+
+.fl-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+  .fl-table th, .fl-table td {
     display: block;
     width: 100%;
-  }
-  .table-wrapper:before{
-    content: "Scroll horizontally >";
-    display: block;
-    text-align: right;
-    font-size: 11px;
-    color: white;
-    padding: 0 0 10px;
-  }
-  .fl-table thead, .fl-table tbody, .fl-table thead th {
-    display: block;
-  }
-  .fl-table thead th:last-child{
-    border-bottom: none;
-  }
-  .fl-table thead {
-    float: left;
-  }
-  .fl-table tbody {
-    width: auto;
-    position: relative;
-    overflow-x: auto;
-  }
-  .fl-table td, .fl-table th {
-    padding: 20px .625em .625em .625em;
-    height: 60px;
-    vertical-align: middle;
     box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
-    width: 120px;
-    font-size: 13px;
-    text-overflow: ellipsis;
   }
-  .fl-table thead th {
-    text-align: left;
-    border-bottom: 1px solid #f7f7f9;
-  }
-  .fl-table tbody tr {
-    display: table-cell;
-  }
-  .fl-table tbody tr:nth-child(odd) {
-    background: none;
-  }
-  .fl-table tr:nth-child(even) {
-    background: transparent;
-  }
-  .fl-table tr td:nth-child(odd) {
-    background: #F8F8F8;
-    border-right: 1px solid #E6E4E4;
-  }
-  .fl-table tr td:nth-child(even) {
-    border-right: 1px solid #E6E4E4;
-  }
-  .fl-table tbody td {
+
+  .fl-table tbody {
     display: block;
-    text-align: center;
+    overflow-x: scroll;
+    white-space: nowrap;
+
   }
-  /* shop */
+
+  .fl-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  .fl-table tbody td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  /* ------------ shop */
+
   .cards {
     flex-direction: column;
     align-items: center;
@@ -1347,24 +1576,27 @@ footer {
     align-items: center;
     width: 50%;
   }
-  /* Icones navbot */
-  .listIcons {
-    margin-left: 30%;
-  }
-  .delete-container {
-    padding:30px;
-  }
-  .btn-delete-order {
-    font-size: 10px;
-  }
-  .signature {
-    z-index: -1;
-  }
+
 }
 
-/* ---------------- Tablettes ------------------------ */
+/* ----------------------------- Tablettes ------------------------ */
 
 @media only screen and (max-width: 768px) {
+ 
+  small {
+    font-size: .6em;
+  }
+
+  .deleteBtn {
+    font-size: 1em;
+    margin-top: 10px;
+  }
+
+  /* ---------- Layout */
+
+  .pText {
+    font-size: 0.7em;
+  }
   /* side bar */
   .menuBox {
     width: 35%;
@@ -1380,24 +1612,37 @@ footer {
   .symbol {
     display: none;
   }
-  /* Titres des pages */
+  /* icones navbot */
+  .listIcons {
+    margin-left: 35%;
+    scale: .8;
+  }
+  .onglets {
+    font-size: .7em;
+    margin-right: 25px;
+  }
+
+  /* ------------ Home */
+
+  .banniere {
+    margin-top: 12%;
+  }
   .pageTitle {
     z-index: 0;
   }
-  /* image top home */ 
-  .banniere {
-    margin-top: 15%;
+  .imgContainer {
+    max-width: 70%;
   }
   /* SVG signature bottom */
   .signature {
     display: none;
   }
-  /* icones navbot */
-  .listIcons {
-    margin-left: 35%;
-    scale: .5;
+  .eventTitle {
+    font-size: 1em;
   }
-  /* Panier d'article */
+
+  /* ------------ Basket */
+
   .checkout,
   .linkShop {
     display: flex;
@@ -1410,23 +1655,132 @@ footer {
     z-index: -5;
   } 
 }
+/* ----------------- SHOP */
+
+.formProductContainer {
+  max-width: 90%;
+}
 
 
-/* ------------- Mobile ------- */
+/* --------------------------------- Mobile ------- */
+
 
 @media only screen and (max-width: 479px) {
 
-  /* Home Events */
-  .eventsPlace {
-    width: 80%;
+  /* -------------- Layout */
+
+.pText {
+  font-size: .7em;
+}
+.pageTitle {
+  display: none;
+}
+.menuBox {
+  width:100%;
+  z-index: 999998;
+  opacity: 1;
+}
+.menuBox li {
+  font-size: 0; 
+}
+.menuBtn {
+  scale: 0.6;
+  z-index: 999999;
+}
+
+/* Home Events */
+.eventsPlace {
+  width: 80%;
+}
+
+/* ---------------- Home */
+
+.banniere {
+  margin-top: 20%;
+}
+.imgContainer {
+  max-width: 90%;
+}
+/* ---------------- Basket */
+
+.linkShopping {
+  box-shadow: none;
+  border: none;
+}
+.action,
+.about h3,
+.count,
+.counter>.btn,
+.remove,
+.items,
+.total {
+  font-size: .8em;
+}
+.action {
+  margin: 15px 0 0 20px;
+}
+/* .line {
+  float: none;
+  margin-right: 0;
+} */
+.Cart-Items {
+  display: flex;
+  flex-direction: column;
+  margin: 15px
+}
+.image-box,
+.about,
+.counter {
+  width: 90%;
+}
+.total {
+  margin: 15px 0;
+}
+
+/* ----------------- shop */
+
+.card {
+  width: 95%; 
+}
+
+/* --------------------- Payment */
+
+.order-summary {
+  width: 90%;
+}
+.order-details img{
+  width: 100%;
+}
+
+ /* -------------------- UserArea */
+.formUser {
+  margin: 100px 15px 0 15px;
+  padding: 10px
+}
+/* ------------------- LOGIN */
+
+.h2p {
+  font-size: 1em;
+}
+
+
+
+
+
+
+
+
+
+/* -------------------------------- Petit Mobile ------- */
+
+@media only screen and (max-width: 375px) {
+
+  .galleryImages li {
+    margin-bottom: 30px;
   }
-  .menuBox {
-    width: 40%;
-    z-index: 999998;
-  }
-  .menuBtn {
-    scale: 0.6;
-    z-index: 999999;
+
+  .banniere {
+    margin-top: 26%;
   }
   .linkShopping {
     box-shadow: none;
@@ -1434,5 +1788,5 @@ footer {
   }
   .card {
     width: 95%; 
- }
-}
+  } 
+}}
