@@ -14,6 +14,8 @@ class Mimes
             'jpe' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
             'jpg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp',
             'gif' => 'image/gif'
             //,
 
