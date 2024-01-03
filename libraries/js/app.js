@@ -22,6 +22,11 @@ const formUpdater = new FormUpdater();
 const navBar = new NavBarScrollEvent();
 
 // Instancier la classe PaypalPayment uniquement sur la page du panier
+
+// Si la classe "checkout" existe sur la page
+if (document.querySelector(".checkoutPayment")) {
+  // Récupérer la taille depuis la variable JavaScript définie dans le code PHP
+}
 // Si la route du panier est trouvée dans l'URL, .indexOf renverra la position où elle a été trouvée (un nombre positif), et donc la condition "position > -1" sera vraie.
 if (document.querySelector(".checkout")) {
   const paypal = new PaypalPayment();
@@ -30,3 +35,4 @@ if (document.querySelector(".checkout")) {
 // Initialisation uniquement si la classe existe sur la page
 if (document.querySelector(".galleryImages")) {
   const displayModal = new DisplayModalGallery();
+}
