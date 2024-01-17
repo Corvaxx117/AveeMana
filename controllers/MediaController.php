@@ -2,14 +2,14 @@
 
 namespace Controllers;
 
-class MediaController extends BaseController
+use Exception;
+
+class MediasController extends BaseController
 {
     // AFFICHER TOUS LES MEDIAS DANS LA GALLERIE 
-    public function displayAllMedias()
+    public function displayAllMedias(array $errors, array $valids)
     {
-        $errors = [];
-        $valids = [];
-        $medias = $this->mediaModel->getAllMedias();
+        $medias = $this->mediasModel->getAllMedias();
         $mediasByType = $this->groupMediasByType($medias);
         $token = $this->randomString->getRandomString(15);
         $_SESSION['shield'] = $token;
@@ -36,7 +36,7 @@ class MediaController extends BaseController
             array_key_exists('shield', $_POST)
         ) {
             $errors = $this->validateFormData($formData);
-            $medias = $this->mediaModel->getAllMedias();
+            $medias = $this->mediasModel->getAllMedias();
 
             $mediasByType = $this->groupMediasByType($medias);
 
@@ -53,7 +53,7 @@ class MediaController extends BaseController
             if (!empty($errors)) {
                 $this->redirect('index.php?route=gallery', $errors);
             } else {
-            // Vérification de la taille du fichier
+                // Vérification de la taille du fichier
                 if ($_FILES['media_path']['error'] == UPLOAD_ERR_INI_SIZE || $_FILES['media_path']['error'] == UPLOAD_ERR_FORM_SIZE) {
                     $errors[] = 'Le fichier est trop volumineux. La taille maximale autorisée est de 2mo.';
                     $this->redirect('index.php?route=gallery', $errors);
@@ -64,8 +64,8 @@ class MediaController extends BaseController
                         $this->redirect('index.php?route=gallery', $errors);
                     } else {
                         $mediaData = $this->prepareMediaData($formData, $newFileName);
-                        $result = $this->mediaModel->addNewMedia($mediaData);
-    
+                        $result = $this->mediasModel->addNewMedia($mediaData);
+
                         if (!$result) {
                             $errors[] = 'Une erreur est survenue lors de l\'enregistrement du nouveau média.';
                             $this->redirect('index.php?route=gallery', $errors);
@@ -84,14 +84,14 @@ class MediaController extends BaseController
         }
     }
     // TRI DES MEDIA PAR TYPE
-    public function groupMediasByType($medias)
+    public function groupMediasByType(array $medias)
     {
         $mediasByType = [
             'audio' => [],
             'image' => [],
             'video' => []
         ];
-    
+
         foreach ($medias as $media) {
             switch ($media['media_type']) {
                 case 'audio':
@@ -109,11 +109,11 @@ class MediaController extends BaseController
                     break;
             }
         }
-    
+
         return $mediasByType;
     }
     // REDIRECTION / AFFICHAGE 
-    public function render($viewName, $layoutName, $data = [])
+    public function render(string $viewName, string $layoutName, array $data = [])
     {
         foreach ($data as $key => $value) {
             $$key = $value;
@@ -122,7 +122,7 @@ class MediaController extends BaseController
         include_once 'views/' . $layoutName . '.phtml';
     }
     // VERIFICATION ET VALIDATION DES DONNEES DU FORMULAIRE
-    public function validateFormData($formData)
+    public function validateFormData(array $formData)
     {
         $errors = [];
         // VERIFICATION DU NOM 
@@ -142,25 +142,28 @@ class MediaController extends BaseController
         return $errors = [];
     }
     // UPLOAD DU FICHIER DANS DOSSIER ADEQUAT
-    public function uploadMedia($formData)
+    public function uploadMedia(array $formData)
     {
         $errors = [];
         // Récupération du type de fichier pour le ranger dans le dossier adequat
         $getFileType =  explode('/', $formData['media_path']['type']);
         $fileType = $getFileType[0];
-        
+
         $newFileName = $this->uploadsModel->uploadingFiles(
             $formData['media_path'],
             'gallery_' . $fileType,
             $errors,
-            1000000000,
-            ["jpeg", "jpg", "JPG", "png", "heic", "gif", "mp3", "wave", "qt", "mov", "mpeg", "avi"]
+            8000000,
+            [
+                "jpeg", "jpg", "JPG", "png", "heic", "gif", "webp"
+                // , "mp3", "wave", "qt", "mov", "mpeg", "avi"
+            ]
         );
         if (!empty($newFileName)) {
             return $newFileName;
         } else {
             $errors[] = 'Une erreur est survenue lors de l\'envoi du fichier.';
-            $medias = $this->mediaModel->getAllMedias();
+            $medias = $this->mediasModel->getAllMedias();
             $mediasByType = $this->groupMediasByType($medias);
             $data = [
                 'errors' => $errors,
@@ -175,7 +178,7 @@ class MediaController extends BaseController
         }
     }
     // PREPARATION DU MEDIA AVANT ENREGISTREMENT BDD
-    public function prepareMediaData($formData, $newFileName)
+    public function prepareMediaData(array $formData, string $newFileName)
     {
 
         $fileTypeFull =  explode('/', $formData['media_path']['type']);
@@ -189,7 +192,7 @@ class MediaController extends BaseController
         return $mediaData;
     }
     // REDIRECTION AVEC TRANSMISSION DES ALERTES
-    public function redirect($url, $errors = [], $valids = [])
+    public function redirect(string $url, array $errors = [], array $valids = [])
     {
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
@@ -199,5 +202,47 @@ class MediaController extends BaseController
         }
         header("Location: $url");
         exit;
+    }
+    // SUPPRESSION D'UN MEDIA (ADMIN)
+    public function deleteMedia()
+    {
+        $errors = [];
+        $valids = [];
+
+        // token
+        $token = $this->randomString->getRandomString(15);
+        $_SESSION['shield'] = $token;
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if (isset($_POST['mediaId'])) {
+                $mediaId = $_POST['mediaId'];
+
+                try {
+                    // Récupérer l'élément à supprimer
+                    $media = $this->mediasModel->getMediaById($mediaId);
+                    if ($media) {
+                        // Récupérer le nom du fichier de l'image associée
+                        $mediaName = $media['path'];
+                        // Supprimer l'image du dossier
+                        if (file_exists('libraries/assets/gallery_' . $media['media_type'] . '/' . $mediaName)) {
+                            unlink('libraries/assets/gallery_' . $media['media_type'] . '/' . $mediaName);
+                        }
+                        // Supprimer l'élément de la base de données
+                        $this->mediasModel->deleteMedia($mediaId);
+                        $valids[] = "Le fichier a été supprimé avec succès.";
+                    } else {
+                        $errors[] = "Le fichier est introuvable.";
+                    }
+                } catch (Exception $e) {
+                    $errors[] = "Une erreur est survenue lors de la suppression du media " . $e->getMessage();
+                }
+            }
+        }
+
+        // Actualiser la galerie
+        $this->displayAllMedias($errors, $valids);
+
+        $template = 'gallery.phtml';
+        include_once 'views/layout.phtml';
     }
 }
