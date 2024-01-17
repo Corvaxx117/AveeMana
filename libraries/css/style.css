@@ -1,6 +1,5 @@
 /* Importation des typographies */ 
-
-@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Lexend+Deca:wght@700&family=Lilita+One&family=Rampart+One&family=Spectral:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Lexend+Deca:wght@700&family=Lilita+One&family=Poppins&family=Rampart+One&family=Spectral:ital,wght@0,500;1,500&display=swap');
 
 /*************************** CSS GENERAL & BASIQUE ******************************/
 
@@ -54,7 +53,7 @@ form input{
   padding: 7px;
 }
 .pText {
-  font-family: 'Carter One', serif;
+  font-family: 'Poppins', serif;
   font-size: 20px;
 }
 .pText>label {
